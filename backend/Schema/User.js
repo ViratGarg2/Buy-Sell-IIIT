@@ -1,0 +1,34 @@
+const mongoose = require('mongoose');
+const bcrypt = require('bcrypt');
+
+const userSchema = new mongoose.Schema({
+    first_name: { type: String, required: true },
+    last_name: { type: String, required: true },
+    email: {
+        type: String,
+        required: true,
+        unique: true,
+        match: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.iiit\.ac\.in$/
+
+    },
+    age: { type: Number, required: true },
+    contact_number: { type: String, required: true },
+    password: { type: String, required: true },
+    cart: [
+        {
+            product_id: { type: mongoose.Schema.Types.ObjectId, ref: 'Product', required: true },
+            quantity: { type: Number, required: true }
+        }
+    ],
+    seller_reviews: [
+        {
+            reviewer_id: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+            rating: { type: Number, required: true },
+            comment: { type: String }
+        }
+    ],
+    created_at: { type: Date, default: Date.now },
+});
+
+module.exports = userSchema;
+
