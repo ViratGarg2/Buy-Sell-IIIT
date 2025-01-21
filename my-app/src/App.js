@@ -6,6 +6,8 @@ import Login from './views/Login.js';
 import Signup from './views/Signup.js';
 import Search from './views/Search.js';
 import Profile from './views/Profile.js';
+import Order from './views/Order.js';
+import Delivery from './views/Delivery.js';
 
 function App() {
   return (
@@ -18,6 +20,9 @@ function App() {
           <Route path = "/signup" element = {<Signup/>}/>
           <Route path = "/search" element = {<Search/>}/>
           <Route path = "/profile" element = {<Profile/>}/>
+          <Route path = "/history" element = {<Order/>}/>
+          <Route path = "/delivery" element = {<Delivery/>}/>
+
         </Routes>
       
     </div>

@@ -26,7 +26,16 @@ const handleSubmit = async(e)=>{
     localStorage.setItem("last_name",json1.last_name);
     localStorage.setItem("contact_number",json1.contact_number);
     localStorage.setItem("email",json1.email);
-    console.log(localStorage.getItem("authToken"));
+    localStorage.setItem("id",json1.id);
+    const authToken = localStorage.getItem("authToken");
+  fetch("http://localhost:3001/getData", {
+  method: "GET",
+  headers: {
+    "Content-Type": "application/json",
+    "auth-token": authToken, // Pass authToken in headers
+  },
+})
+    // console.log(localStorage.getItem("authToken"));
     window.location.href = "/profile";
   }
 

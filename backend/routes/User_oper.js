@@ -4,7 +4,6 @@ const User = require("../models/User.js");
 const { body, validationResult } = require("express-validator");
 const bcrypt = require("bcryptjs"); // Use bcrypt for password hashing
 const jwt = require("jsonwebtoken");
-// Registration Endpoint
 
 const jwtSecret = "IAmTheGreatestOfAllTimewwwwwwwww";
 
@@ -75,9 +74,10 @@ router.post(
       }
       const data = {
         user:{
-            id:user.id
+            email:user.email,
         }
       }
+      console.log(user.email);
       const authToken = jwt.sign(data,jwtSecret);
       res.json({
         success: true,
@@ -86,7 +86,8 @@ router.post(
         first_name: user.first_name,
         last_name: user.last_name,
         contact_number: user.contact_number,
-        email: user.email
+        email: user.email,
+        id: user.id,
       });
     } catch (err) {
       console.error(err);

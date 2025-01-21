@@ -1,0 +1,15 @@
+// {
+        //   $lookup: {
+        //     from: "users", // Reference the "users" collection
+        //     localField: "buyer_id",
+        //     foreignField: "_id", // Ensure correct foreignField for the lookup
+        //     as: "userDetails",
+        //   },
+        // },
+        // { $unwind: "$userDetails" }, // Flatten the user details
+        // {
+        //   $match: {
+        //     status: "pending", // Match pending orders
+        //     seller_id: mongoose.Types.ObjectId(decodedId), // Filter by seller ID
+        //   },
+        // },

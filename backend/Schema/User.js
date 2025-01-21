@@ -16,13 +16,13 @@ const userSchema = new mongoose.Schema({
     password: { type: String, required: true },
     cart: [
         {
-            product_id: { type: mongoose.Schema.Types.ObjectId, ref: 'Product', required: true },
-            quantity: { type: Number, required: true }
+            product_id: { type: String, required: true },
+            // quantity: { type: Number, required: true }
         }
     ],
     seller_reviews: [
         {
-            reviewer_id: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+            reviewer_id: { type: String},
             rating: { type: Number, required: true },
             comment: { type: String }
         }
