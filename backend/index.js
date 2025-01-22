@@ -73,8 +73,8 @@ app.use('/add_to_cart/:id',(req,res)=>{
     const id = req.params.id;
     addToCart(req,res,id);
 })
-app.use('/chat',(req,res)=>{
-    support(req.body.messages);
+app.use('/support',(req,res)=>{
+    support(req,res);
 })
 app.use('/getcart',(req,res)=>{
     Cart(req,res);

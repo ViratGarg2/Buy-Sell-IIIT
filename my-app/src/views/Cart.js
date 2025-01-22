@@ -1,4 +1,9 @@
 import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
+
+const buy = async function(){
+
+}
 
 const Cart = ()=>{
     const authToken = localStorage.getItem("authToken");
@@ -45,6 +50,7 @@ const Cart = ()=>{
         <h1>Your Cart</h1>
         <div style={{ display: "flex", flexWrap: "wrap", gap: "10px" }}>
         {data.map((item, index) => (
+             <Link to={`/search/${item[0].id}`} style={{textDecoration:"none",color:"inherit"}}>
           <div
             key={index}
             style={{
@@ -55,14 +61,16 @@ const Cart = ()=>{
               boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
             }}
           >
-            <h2 style={{ margin: "5px 0" }}>{item.name}</h2>
+            <h2 style={{ margin: "5px 0" }}>{item[0].name}</h2>
             <p>
-              <strong>Category:</strong> {item.category}
+              <strong>Category:</strong> {item[0].category}
             </p>
-            <p>{item.description}</p>
+            <p>{item[0].description}</p>
           </div>
+          </Link>
         ))}
         </div>
+        <button style={{borderRadius: "10px",color:"white",background:"green",marginLeft:"20em",paddingInline:"10px"}} onClick = {buy}>Buy</button>
         </>
     );
 }

@@ -22,7 +22,7 @@ async function Left_Orders(req, res) {
   }
 
   let user = await User.findOne({ email: decodedId });
-  console.log('email is ',user.seller_id);
+  // console.log('email is ',user.seller_id);
   try {
     const data = await mongoose.connection.db
       .collection("Order") // Use lowercase collection name as MongoDB defaults to lowercase
@@ -48,7 +48,7 @@ async function Left_Orders(req, res) {
         {
               $match: {
               status: "pending",
-            //   seller_id: 
+              seller_id: user.id,
               },
             },
         {

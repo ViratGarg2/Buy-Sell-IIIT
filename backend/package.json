@@ -10,6 +10,7 @@
   "description": "",
   "dependencies": {
     "@google/generative-ai": "^0.21.0",
+    "axios": "^1.7.9",
     "bcrypt": "^5.1.1",
     "bcryptjs": "^2.4.3",
     "cores": "^0.8.5",
@@ -21,6 +22,7 @@
     "jwt-token": "^1.0.9",
     "mongodb": "^6.12.0",
     "mongoose": "^8.9.5",
+    "react-google-recaptcha": "^3.1.0",
     "react-rating-stars-component": "^2.2.0"
   }
 }

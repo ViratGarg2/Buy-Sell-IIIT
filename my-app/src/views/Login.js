@@ -1,9 +1,17 @@
 import React from 'react'
 import {useState} from 'react'
 import {Link} from 'react-router-dom'
+import ReCAPTCHA from 'react-google-recaptcha';
+
 
 export default function Login(){
   const [credentials,setCredentials] = useState({email:"",password:""});
+  const [recaptchaValue, setRecaptchaValue] = useState(null);
+
+const onRecaptchaChange = (value) => {
+  setRecaptchaValue(value);
+};
+
 
 const handleSubmit = async(e)=>{
   e.preventDefault();
@@ -13,6 +21,7 @@ const handleSubmit = async(e)=>{
     body: JSON.stringify({
       email: credentials.email,
       password: credentials.password,
+      value : recaptchaValue,
     }),
   });
   // console.log((await response).text(),'nothing much found');
@@ -45,6 +54,7 @@ const onChange = (event) =>{
   setCredentials({...credentials,[event.target.name]:event.target.value});
 };
     return (
+      //  <script src="https://www.google.com/recaptcha/api.js" async defer></script>
       <form onSubmit={handleSubmit}>
       <div style={{"margin-left":20}}>
         <div className="mb-3">
@@ -55,7 +65,13 @@ const onChange = (event) =>{
   <label htmlFor="exampleFormControlTextarea1" className="form-label">password</label>
   <input className="form-control" id="exampleFormControlTextarea1" type="password" name="password" onChange={onChange}/>
 </div>
-<button type="submit" className="btn btn-primary">Login</button>
+
+<ReCAPTCHA
+      sitekey="6LfvMcAqAAAAAPUU8hMajKcSJzLfCv4EYcnlEWqG"
+      onChange={onRecaptchaChange}
+    />
+  
+<button type="submit" className="btn btn-primary" disabled={!recaptchaValue}>Login</button>
 <Link to="/Signup" className="m-3 btn danger">
              New User
 </Link>

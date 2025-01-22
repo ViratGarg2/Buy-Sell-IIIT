@@ -4,7 +4,7 @@ const User = require("../models/User.js");
 const { body, validationResult } = require("express-validator");
 const bcrypt = require("bcryptjs"); // Use bcrypt for password hashing
 const jwt = require("jsonwebtoken");
-
+const axios = require('axios');
 const jwtSecret = "IAmTheGreatestOfAllTimewwwwwwwww";
 const crypto = require('crypto');
 
@@ -60,6 +60,13 @@ router.post(
     body("password", "Password cannot be empty").notEmpty(),
   ],
   async (req, res) => {
+    const captcha = req.body.value;
+    const secretKey = '6LfvMcAqAAAAALVjNtBEoxzFqlpU6bgWh6_7LULY';
+    const verificationURL = `https://www.google.com/recaptcha/api/siteverify?secret=${secretKey}&response=${captcha}`;
+    try{
+      const response = await axios.post(verificationURL);
+    const { success } = response.data;
+    if(success){
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
@@ -100,7 +107,14 @@ router.post(
       console.error(err);
       res.json({ success: false, error: "Server error"});
     }
+  }else{
+    res.status(400).json({ message: 'reCAPTCHA verification failed' });
   }
+  }
+  catch(error){
+    res.status(500).json({ message: 'Error verifying reCAPTCHA' });
+  }
+}
 );
 
 module.exports = router;

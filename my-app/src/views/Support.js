@@ -1,10 +1,10 @@
 import React, { useState } from "react";
-import axios from "axios";
-import "./Chatbot.css"; // Import the CSS for styling
+import "./Chatbot.css";
 
 const Chatbot = () => {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleSend = async () => {
     if (input.trim() === "") return;
@@ -17,52 +17,74 @@ const Chatbot = () => {
     setInput("");
 
     try {
-      // Send message to backend
-      const response = await fetch("http://localhost:3001/chat", {
-        method : "POST",
-        headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(messages),
-        });
+      // Show loader
+      setIsLoading(true);
 
-        const data = await response.json();
-        if(data.success){
-            console.log(data);
-        }
-      // Add bot's response to the chat
-      const botMessage = { author: "bot", content: data.messages };
-      setMessages((prevMessages) => [...prevMessages, botMessage]);
+      // Send the user's message to the backend
+      const response = await fetch("http://localhost:3001/support", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ message: input }),
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        // Add the bot's response to the chat
+        const botMessage = { author: "bot", content: data.message };
+        setMessages((prevMessages) => [...prevMessages, botMessage]);
+      } else {
+        throw new Error(data.message);
+      }
     } catch (error) {
       console.error("Error sending message:", error);
-      const errorMessage = { author: "bot", content: "Sorry, something went wrong. Please try again." };
+      const errorMessage = {
+        author: "bot",
+        content: "Sorry, something went wrong. Please try again.",
+      };
       setMessages((prevMessages) => [...prevMessages, errorMessage]);
+    } finally {
+      // Hide loader
+      setIsLoading(false);
     }
   };
 
+  if (!localStorage.getItem("authToken")) {
+    return <h1 style={{ color: "green" }}>Please login to use Support</h1>;
+  }
+
   return (
-    <div className="chatbot-container">
-      <div className="chatbox">
-        {messages.map((msg, index) => (
-          <div
-            key={index}
-            className={msg.author === "user" ? "message user-message" : "message bot-message"}
-          >
-            {msg.content}
-          </div>
-        ))}
+    localStorage.getItem("authToken") && (
+      <div className="chatbot-container">
+        <div className="chatbox">
+          {messages.map((msg, index) => (
+            <div
+              key={index}
+              className={
+                msg.author === "user"
+                  ? "message user-message"
+                  : "message bot-message"
+              }
+            >
+              {msg.content}
+            </div>
+          ))}
+          {isLoading && <p>Loading....</p>}
+        </div>
+        <div className="input-container">
+          <input
+            type="text"
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+            placeholder="Type your message..."
+            onKeyDown={(e) => e.key === "Enter" && handleSend()}
+          />
+          <button onClick={handleSend}>Send</button>
+        </div>
       </div>
-      <div className="input-container">
-        <input
-          type="text"
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-          placeholder="Type your message..."
-          onKeyDown={(e) => e.key === "Enter" && handleSend()}
-        />
-        <button onClick={handleSend}>Send</button>
-      </div>
-    </div>
+    )
   );
 };
 
