@@ -9,9 +9,18 @@ const cors = require("cors");
 const Show_Orders = require("./routes/Show_Orders.js");
 const Left_Orders = require('./routes/Left_Orders.js');
 const Item = require('./routes/Product.js');
+const Item2 = require('./routes/Detail.js');
 const Update = require('./routes/Update.js');
+const addToCart = require('./routes/addToCart.js');
+const support = require('./routes/Support.js');
+const Cart = require('./routes/Cart.js');
+const mongoose = require('mongoose');
 // const CheckLogin = require('./routes/Login.js');
 mongo_connect(mongoURL);
+
+
+
+
 
 app.use(cors({
     origin: "http://localhost:3000", // Your frontend origin
@@ -48,11 +57,30 @@ app.use('/delivery',(req,res)=>{
     Left_Orders(req,res);
     console.log('Hi I am gr8');
 })
+
+app.use('/search/:id',(req,res)=>{ const id = req.params.id; // Get the id from the URL
+    console.log('got it, ID:', id);
+    Item2(req,res,id);
+});
+
 app.use('/search',(req,res)=>{Item(req,res);console.log('searching')});
+
 
 app.use('/update_profile',(req,res)=>{
     Update(req,res);
 })
+app.use('/add_to_cart/:id',(req,res)=>{
+    const id = req.params.id;
+    addToCart(req,res,id);
+})
+app.use('/chat',(req,res)=>{
+    support(req.body.messages);
+})
+app.use('/getcart',(req,res)=>{
+    Cart(req,res);
+})
+
+
 app.listen(PORT,()=>{
     console.log('listening on PORT');
 })

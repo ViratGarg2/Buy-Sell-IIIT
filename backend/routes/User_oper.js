@@ -6,6 +6,11 @@ const bcrypt = require("bcryptjs"); // Use bcrypt for password hashing
 const jwt = require("jsonwebtoken");
 
 const jwtSecret = "IAmTheGreatestOfAllTimewwwwwwwww";
+const crypto = require('crypto');
+
+function generateRandomString(length) {
+  return crypto.randomBytes(length).toString('hex').slice(0, length);
+}
 
 router.post(
   "/createUser",
@@ -25,7 +30,8 @@ router.post(
       // Hash the password before saving
       const salt = await bcrypt.genSalt(10);
       const hashedPassword = await bcrypt.hash(req.body.password, salt);
-
+      const id1 = generateRandomString(16);
+      console.log(id1);
       await User.create({
         first_name: req.body.first_name,
         last_name: req.body.last_name,
@@ -35,6 +41,7 @@ router.post(
         password: hashedPassword,
         cart: req.body.cart,
         seller_reviews: req.body.seller_reviews,
+        id: id1,
       });
 
       res.json({ success: true, message: "User created successfully" });

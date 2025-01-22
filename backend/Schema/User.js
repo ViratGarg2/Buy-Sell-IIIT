@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 
 const userSchema = new mongoose.Schema({
+    id: {type:String,unique:true,required:true},
     first_name: { type: String, required: true },
     last_name: { type: String, required: true },
     email: {
@@ -20,12 +21,12 @@ const userSchema = new mongoose.Schema({
             // quantity: { type: Number, required: true }
         }
     ],
-    seller_reviews: [
+    comment: [
         {
-            reviewer_id: { type: String},
+            name: { type: String},
             rating: { type: Number, required: true },
             comment: { type: String }
-        }
+        },
     ],
     created_at: { type: Date, default: Date.now },
 });

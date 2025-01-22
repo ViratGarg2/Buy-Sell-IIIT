@@ -8,6 +8,9 @@ import Search from './views/Search.js';
 import Profile from './views/Profile.js';
 import Order from './views/Order.js';
 import Delivery from './views/Delivery.js';
+import Support from './views/Support.js';
+import ItemDetails from './views/ItemDetails.js';
+import Cart from './views/Cart.js';
 
 function App() {
   return (
@@ -22,7 +25,9 @@ function App() {
           <Route path = "/profile" element = {<Profile/>}/>
           <Route path = "/history" element = {<Order/>}/>
           <Route path = "/delivery" element = {<Delivery/>}/>
-
+          <Route path = "/support" element = {<Support/>}/>
+          <Route path="/search/:id" element={<ItemDetails />} />
+          <Route path="/cart" element={<Cart/>} />
         </Routes>
       
     </div>

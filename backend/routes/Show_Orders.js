@@ -35,18 +35,18 @@ async function Show_Orders(req, res) {
 
     const fetchData = mongoose.connection.db.collection("Order");
     const user = await mongoose.connection.db.collection("users").findOne({ email: userId }); // Assume userId is the email
-    if (!user || !user._id) {
+    if (!user || !user.id) {
       throw new Error("User not found or invalid ID");
     }
-    const uniqueId = user._id.toString(); // Extract the unique MongoDB ObjectId
-    console.log('id is',uniqueId);
+    const uniqueId = user.id.toString(); // Extract the unique MongoDB ObjectId
+    // console.log('id is',uniqueId);
     // Step 2: Fetch data using the unique ID as seller_id or buyer_id
     const data1 = await fetchData.find({ status: "pending" }).toArray();
     const data2 = await fetchData.find({ status: "delivered", seller_id: uniqueId }).toArray();
     const data3 = await fetchData.find({ status: "delivered", buyer_id: uniqueId }).toArray();
-    console.log(data1);
+    // console.log(data1);
     console.log(data2);
-    console.log(data3);
+    // console.log(data3);
     return res.status(200).json({
       pendingOrders: data1,
       deliveredAsSeller: data2,

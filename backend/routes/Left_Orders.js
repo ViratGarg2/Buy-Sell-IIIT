@@ -28,24 +28,10 @@ async function Left_Orders(req, res) {
       .collection("Order") // Use lowercase collection name as MongoDB defaults to lowercase
       .aggregate([
         {
-            
-                $addFields: {
-                  product_id1: { $toObjectId: "$product_id" }, // Convert to ObjectId
-                },
-                
-        },
-        {
-            
-            $addFields: {
-              buyer_id1: { $toObjectId: "$buyer_id" }, // Convert to ObjectId
-            },
-            
-    },
-        {
           $lookup: {
             from: "Product", 
-            localField: "product_id1",
-            foreignField: "_id",
+            localField: "product_id",
+            foreignField: "id",
             as: "productDetails",
           },
         },
@@ -53,8 +39,8 @@ async function Left_Orders(req, res) {
         {
               $lookup: {
                 from: "users", // Reference the "users" collection
-                localField: "buyer_id1",
-                foreignField: "_id", // Ensure correct foreignField for the lookup
+                localField: "buyer_id",
+                foreignField: "id", // Ensure correct foreignField for the lookup
                 as: "userDetails",
               },
             },

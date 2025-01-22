@@ -56,7 +56,7 @@ const Delivery = () => {
         <strong>Buyer:</strong> {item.buyerName}
       </p>
       <p>
-        <strong>Order Value:</strong> ${item.orderValue}
+        <strong>Order Value:</strong> {item.orderValue}
       </p>
     </div>
   ))}

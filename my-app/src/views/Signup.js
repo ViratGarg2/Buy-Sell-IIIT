@@ -32,7 +32,7 @@ export default function Signup() {
     const json1 = await response.json();
     // console.log(json1);
     if (!json1.success) {
-      alert("Enter Valid Credentials");
+      alert(`Enter Valid Credentials ${json1.message}`);
     }else{
       window.location.href = "/login";
     }

@@ -4,7 +4,9 @@ async function Product(req, res) {
   try {
     console.log("trying");
     const fetchData = mongoose.connection.db.collection("Product");
-    const data1 = await fetchData.find({}).toArray();
+   let data1;
+    data1 = await fetchData.find({}).toArray();
+    console.log('data got successfully');
     console.log('data1 is    ',data1);
     return res.status(200).json({
      Product: data1,

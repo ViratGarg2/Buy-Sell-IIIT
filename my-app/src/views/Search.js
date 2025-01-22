@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 // import Search1 from "../components/Search";
 // Fetch the items to display
+import { Link } from "react-router-dom";
 const getItems = async (setUser) => {
   try {
     const response = await fetch("http://localhost:3001/search", {
@@ -98,6 +99,7 @@ export default function Search() {
         {filteredItems.length > 0 ? (
           filteredItems.map((item, index) => (
             <div key={index} className="col-md-4 mb-3">
+              <Link to={`/search/${item.id}`} style={{textDecoration:"none",color:"inherit"}}>
               <div className="card">
                 <div className="card-body">
                   <h5 className="card-title">{item.name}</h5>
@@ -118,6 +120,7 @@ export default function Search() {
                   </p>
                 </div>
               </div>
+              </Link>
             </div>
           ))
         ) : (
