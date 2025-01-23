@@ -81,7 +81,8 @@ const Chatbot = () => {
             placeholder="Type your message..."
             onKeyDown={(e) => e.key === "Enter" && handleSend()}
           />
-          <button onClick={handleSend}>Send</button>
+          <button style={{borderRadius: "10px",color:"white",background:"green"}} onClick = {handleSend}>Send</button>
+          {/* <button onClick={handleSend}>Send</button> */}
         </div>
       </div>
     )

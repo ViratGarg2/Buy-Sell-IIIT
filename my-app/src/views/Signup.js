@@ -25,7 +25,6 @@ export default function Signup() {
         email: credentials.email,
         contact_number: credentials.contact_number,
         age: credentials.age,
-        password: credentials.password,
       }),
     });
     // console.log((await response).text(),'nothing much found');

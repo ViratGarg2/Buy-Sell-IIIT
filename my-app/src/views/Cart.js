@@ -1,14 +1,46 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 
-const buy = async function(){
-
-}
 
 const Cart = ()=>{
     const authToken = localStorage.getItem("authToken");
     const [error,setError] = useState(null);
     const [data,setData] = useState([]);
+    const [loading, setLoading] = useState(false);
+
+    // setLoading = {
+    //     (loading) => {
+    //         setLoading(loading);
+    //     }
+    // }
+    const buy = async () => {
+        setLoading(true);
+        setError(null);
+        try {
+          const response = await fetch('http://localhost:3001/buy', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'auth-token': localStorage.getItem('authToken'),
+            },
+          });
+    
+          const data = await response.json();
+          // Handle the response data as needed
+          console.log(data.success);
+          if(data.success){
+            alert('Order Placed Successfully');
+          }else{
+            alert(data.message);
+          }
+        } catch (error) {
+          setError(error.message);
+          console.error('Error:', error);
+        } finally {
+          setLoading(false);
+        }
+      };
+
     useEffect(() => {
       const fetchData = async () => {
         try {
@@ -70,7 +102,8 @@ const Cart = ()=>{
           </Link>
         ))}
         </div>
-        <button style={{borderRadius: "10px",color:"white",background:"green",marginLeft:"20em",paddingInline:"10px"}} onClick = {buy}>Buy</button>
+        <button disabled = {loading}  style={{borderRadius: "10px",color:"white",background:"green",marginLeft:"20em",paddingInline:"10px",paddingRight:"10px",padding:"10px"}} onClick = {()=>buy()} >{loading?'Processing..':'Buy'}</button>
+
         </>
     );
 }

@@ -41,7 +41,7 @@ async function Show_Orders(req, res) {
     const uniqueId = user.id.toString(); // Extract the unique MongoDB ObjectId
     // console.log('id is',uniqueId);
     // Step 2: Fetch data using the unique ID as seller_id or buyer_id
-    const data1 = await fetchData.find({ status: "pending" }).toArray();
+    const data1 = await fetchData.find({ status: "pending",buyer_id:uniqueId}).toArray();
     const data2 = await fetchData.find({ status: "delivered", seller_id: uniqueId }).toArray();
     const data3 = await fetchData.find({ status: "delivered", buyer_id: uniqueId }).toArray();
     // console.log(data1);

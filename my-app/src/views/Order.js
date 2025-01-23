@@ -66,7 +66,7 @@ export default function Orders() {
               <div className="card mt-3">
                 <div className="card-body">
                   <h5 className="card-title">Order ID: {order._id}</h5>
-                  <p className="card-text">Amount: ${order.amount}</p>
+                  <p className="card-text">Amount: {order.amount}</p>
                   <p className="card-text">Status: {order.status}</p>
                   <p className="card-text">OTP: {order.hashed_otp}</p>
                 </div>

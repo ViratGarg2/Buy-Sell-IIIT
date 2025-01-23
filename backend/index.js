@@ -15,6 +15,9 @@ const addToCart = require('./routes/addToCart.js');
 const support = require('./routes/Support.js');
 const Cart = require('./routes/Cart.js');
 const mongoose = require('mongoose');
+const Buy = require('./routes/Buy.js');
+const checkOtp = require('./routes/Otp.js');
+const sell = require('./routes/Sell.js');
 // const CheckLogin = require('./routes/Login.js');
 mongo_connect(mongoURL);
 
@@ -55,7 +58,7 @@ app.use('/getData',(req,res)=>{
 });
 app.use('/delivery',(req,res)=>{
     Left_Orders(req,res);
-    console.log('Hi I am gr8');
+    // console.log('Hi I am gr8');
 })
 
 app.use('/search/:id',(req,res)=>{ const id = req.params.id; // Get the id from the URL
@@ -71,6 +74,7 @@ app.use('/update_profile',(req,res)=>{
 })
 app.use('/add_to_cart/:id',(req,res)=>{
     const id = req.params.id;
+    console.log('id is',id);
     addToCart(req,res,id);
 })
 app.use('/support',(req,res)=>{
@@ -79,7 +83,16 @@ app.use('/support',(req,res)=>{
 app.use('/getcart',(req,res)=>{
     Cart(req,res);
 })
-
+app.use('/buy',(req,res)=>{
+    console.log('Buy from cart');
+    Buy(req,res);
+})
+app.use('/check_otp/:id',(req,res)=>{
+    const id = req.params.id;
+    console.log('id2 is',id);
+    checkOtp(req,res);
+})
+app.use('/sell',sell)
 
 app.listen(PORT,()=>{
     console.log('listening on PORT');

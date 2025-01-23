@@ -11,6 +11,7 @@ import Delivery from './views/Delivery.js';
 import Support from './views/Support.js';
 import ItemDetails from './views/ItemDetails.js';
 import Cart from './views/Cart.js';
+import Sell from './views/Sell.js';
 
 function App() {
   return (
@@ -28,6 +29,7 @@ function App() {
           <Route path = "/support" element = {<Support/>}/>
           <Route path="/search/:id" element={<ItemDetails />} />
           <Route path="/cart" element={<Cart/>} />
+          <Route path="/sell" element={<Sell/>} />
         </Routes>
       
     </div>

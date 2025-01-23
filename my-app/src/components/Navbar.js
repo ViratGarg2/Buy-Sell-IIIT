@@ -56,6 +56,9 @@ export default function Navbar() {
               <li className="nav-item">
                 <Link className="nav-link" to="/support">Support</Link>
               </li>
+              <li className="nav-item">
+                <Link className="nav-link" to="/sell">Sell</Link>
+              </li>
             </ul>
             <button style={{borderRadius: "10px",color:"white",background:"green"}} onClick = {logout}>Logout</button>
           </div>

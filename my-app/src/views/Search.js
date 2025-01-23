@@ -78,7 +78,7 @@ export default function Search() {
 
       <div className="mt-3">
         <h5>Filter by Category</h5>
-        {["Electronics", "Furniture", "Clothes"].map((category) => (
+        {["electronics", "furniture", "clothes"].map((category) => (
           <div key={category}>
             <input
               type="checkbox"
@@ -105,7 +105,7 @@ export default function Search() {
                   <h5 className="card-title">{item.name}</h5>
                   <p className="card-text">{item.description}</p>
                   <p className="card-text">
-                    <strong>Price:</strong> ${item.price}
+                    <strong>Price:</strong> {item.price}
                   </p>
                   <div>
                   <p className="card-text">
@@ -115,9 +115,6 @@ export default function Search() {
                     <button style={{background:"green",color:"white",borderRadius:"10px"}} onClick = {handleAddToCart(item._id)}>Add to cart</button>
                 )} */}
                   </div>
-                  <p className="card-text">
-                    <strong>id:</strong> {item._id}
-                  </p>
                 </div>
               </div>
               </Link>

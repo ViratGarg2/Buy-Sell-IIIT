@@ -53,10 +53,10 @@ async function Left_Orders(req, res) {
             },
         {
           $project: {
-            
             itemName: "$productDetails.name", // Extract product name
             buyerName: "$userDetails.first_name", // Extract buyer's name
             orderValue: "$amount", // Extract order value
+            id: "$id",
           },
         },
       ])
