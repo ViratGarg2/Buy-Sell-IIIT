@@ -3,7 +3,7 @@ const jwt = require("jsonwebtoken");
 const mongoose = require("mongoose");
 const User = require("../models/User"); // Assuming you have a User model
 const router = express.Router();
-
+const bcrypt = require('bcryptjs');
 const JWT_SECRET = "IAmTheGreatestOfAllTimewwwwwwwww"; // Replace with your actual JWT secret key
 
 // Middleware to authenticate token and extract user email
@@ -29,6 +29,11 @@ router.post("/", authenticateToken, async (req, res) => {
 
   try {
     // Find the user by email and update their details
+    if(updatedFields.password){
+      console.log(updatedFields.password);
+      const salt = await bcrypt.genSalt(10);
+      updatedFields.password = await bcrypt.hash(updatedFields.password,salt);
+    }
     const user = await User.findOneAndUpdate({ email: userEmail }, updatedFields, { new: true });
     console.log(user);
     if (!user) {

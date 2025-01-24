@@ -167,7 +167,7 @@ export default function Profile() {
 
           <div className="profile-container">
             <h2>Edit Profile</h2>
-            {["first_name", "last_name", "contact_number"].map((field) => (
+            {["first_name", "last_name", "contact_number","age","password"].map((field) => (
               <div className="profile-field" key={field}>
                 <strong>
                   {field.replace("_", " ").toUpperCase()}:

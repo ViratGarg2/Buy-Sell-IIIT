@@ -18,6 +18,7 @@ const mongoose = require('mongoose');
 const Buy = require('./routes/Buy.js');
 const checkOtp = require('./routes/Otp.js');
 const sell = require('./routes/Sell.js');
+const add_comment = require('./routes/addComment.js');
 // const CheckLogin = require('./routes/Login.js');
 mongo_connect(mongoURL);
 
@@ -91,6 +92,11 @@ app.use('/check_otp/:id',(req,res)=>{
     const id = req.params.id;
     console.log('id2 is',id);
     checkOtp(req,res);
+})
+app.use('/add_comment/:id',(req,res)=>{
+    const id = req.params.id;
+    console.log('id2 is',id);
+    add_comment(req,res);
 })
 app.use('/sell',sell)
 

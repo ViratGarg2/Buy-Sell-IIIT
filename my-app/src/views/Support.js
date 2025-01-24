@@ -71,7 +71,7 @@ const Chatbot = () => {
               {msg.content}
             </div>
           ))}
-          {isLoading && <p>Loading....</p>}
+          {isLoading && <p>Trying..</p>}
         </div>
         <div className="input-container">
           <input

@@ -3,7 +3,7 @@ const router = express.Router();
 const User = require("../models/User.js");
 
 const jwt = require("jsonwebtoken");
-
+const bcrypt = require("bcryptjs");
 const jwtSecret = "IAmTheGreatestOfAllTimewwwwwwwww";
 const Product = require('../models/Product.js');
 // Route to get user details from authToken
@@ -21,8 +21,8 @@ router.get("/get", async (req, res) => {
     const userId = decoded.user.email;
 
     // Find user in the database
-    const user = await User.find({email:userId}).select("-password"); // Exclude password field
-
+    const user = await User.find({email:userId}); // Exclude password field
+    // console.log(pass);
     if (!user) {
       return res.status(404).json({ success: false, message: "User not found" });
     }

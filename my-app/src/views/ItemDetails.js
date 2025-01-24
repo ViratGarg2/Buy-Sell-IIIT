@@ -25,10 +25,49 @@ const add_to_cart = async(id)=>{
           }
 }
 
+const add_comment = async(id,comment)=>{
+  console.log('done');
+  const authToken = localStorage.getItem('authToken');
+      try {
+        const response = await fetch(`http://localhost:3001/add_comment/${id}`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "auth-token": authToken,
+          },
+          body: JSON.stringify({
+            comment,
+          }),
+
+        });
+        const data = await response.json();
+        if(data.success){
+          alert('Comment added');
+        }else{
+          alert(data.message);
+        }
+      }
+        catch(error){
+          console.log(`An error occured ${error}`);
+        }
+}
 const ItemDetails = () => {
   const { id } = useParams(); // Extract the id from the URL
   const [itemDetails, setItemDetails] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [showCommentBox, setShowCommentBox] = useState(false);
+  const [commentData, setCommentData] = useState({ rating: 0, comment: "" });
+
+  const handleAddComment = () => {
+    if (commentData.rating === 0 || commentData.comment.trim() === "") {
+      alert("Please provide a rating and a comment!");
+      return;
+    }
+    // Call add_comment with the comment data
+    add_comment(itemDetails.id, commentData);
+    setCommentData({ rating: 0, comment: "" }); // Reset fields
+    setShowCommentBox(false); // Close the comment box
+  };
 
   useEffect(() => {
     const fetchItemDetails = async () => {
@@ -82,16 +121,105 @@ const ItemDetails = () => {
           <p>
             <strong>Seller name:</strong> {itemDetails.seller_first_name} {itemDetails.seller_last_name}
           </p>
-      <h3>Reviews</h3>
-      {itemDetails.seller_reviews.map((review, index) => (
-        <div style={{ marginBottom: '10px',border: '2px solid #ccc',borderRadius: '8px',padding: '10px',}}>
-            <strong>{review.name}</strong>
-            <br></br>
-          <StarRating rating={review.rating} />
-          <p>"{review.comment}"</p>
-        </div>
-      ))}
-         <button style={{borderRadius: "10px",color:"white",background:"green"}} onClick = {()=>add_to_cart(itemDetails.id)}>Add to Cart</button>
+          <h3>Reviews</h3>
+          {itemDetails.seller_reviews.map((review, index) => (
+            <div
+              key={index}
+              style={{
+                marginBottom: "10px",
+                border: "2px solid #ccc",
+                borderRadius: "8px",
+                padding: "10px",
+              }}
+            >
+              <strong>{review.name}</strong>
+              <br />
+              <StarRating rating={review.rating} />
+              <p>"{review.comment}"</p>
+            </div>
+          ))}
+          <div style={{ display: "flex", marginTop: "10px", gap: "10px" }}>
+            <button
+              style={{ borderRadius: "10px", color: "white", background: "green" }}
+              onClick={() => setShowCommentBox(true)}
+            >
+              Add Comment
+            </button>
+            <button
+              style={{ borderRadius: "10px", color: "white", background: "green" }}
+              onClick={() => add_to_cart(itemDetails.id)}
+            >
+              Add to Cart
+            </button>
+          </div>
+
+          {/* Comment Box */}
+          {showCommentBox && (
+            <div
+              style={{
+                marginTop: "20px",
+                border: "2px solid #ccc",
+                borderRadius: "8px",
+                padding: "10px",
+              }}
+            >
+              <h4>Add Your Comment</h4>
+              <div style={{ marginBottom: "10px" }}>
+                <label>
+                  <strong>Rating:</strong>
+                  <input
+                    type="number"
+                    min="1"
+                    max="5"
+                    value={commentData.rating}
+                    onChange={(e) =>
+                      setCommentData({ ...commentData, rating: Number(e.target.value) })
+                    }
+                    style={{ marginLeft: "10px", width: "50px" }}
+                  />
+                </label>
+              </div>
+              <div style={{ marginBottom: "10px" }}>
+                <label>
+                  <strong>Comment:</strong>
+                  <textarea
+                    rows="3"
+                    value={commentData.comment}
+                    onChange={(e) =>
+                      setCommentData({ ...commentData, comment: e.target.value })
+                    }
+                    style={{
+                      marginLeft: "10px",
+                      width: "100%",
+                      borderRadius: "5px",
+                      padding: "5px",
+                    }}
+                  />
+                </label>
+              </div>
+              <button
+                style={{
+                  borderRadius: "10px",
+                  color: "white",
+                  background: "green",
+                  marginRight: "10px",
+                }}
+                onClick={handleAddComment}
+              >
+                Submit
+              </button>
+              <button
+                style={{
+                  borderRadius: "10px",
+                  color: "white",
+                  background: "red",
+                }}
+                onClick={() => setShowCommentBox(false)}
+              >
+                Cancel
+              </button>
+            </div>
+          )}
         </div>
       </div>
     </div>

@@ -78,7 +78,7 @@ export default function Search() {
 
       <div className="mt-3">
         <h5>Filter by Category</h5>
-        {["electronics", "furniture", "clothes"].map((category) => (
+        {["Electronics", "Furniture", "Clothes"].map((category) => (
           <div key={category}>
             <input
               type="checkbox"
