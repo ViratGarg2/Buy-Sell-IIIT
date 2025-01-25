@@ -8,6 +8,7 @@ const productSchema = new mongoose.Schema({
     seller_id: { type: String, required: true },
     order_id:{type:String,required:false},
     created_at: { type: Date, default: Date.now },
+    img_link : {type:String},
     id:{type:String,required:true,unique:true},
 });
 

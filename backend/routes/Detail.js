@@ -39,6 +39,7 @@ async function Product1(req, res,id) {
                 seller_last_name: "$sellerDetails.last_name",
                 seller_email: "$sellerDetails.email",
                 seller_reviews: "$sellerDetails.comment",
+                img_link: "$img_link",
             }
         }
     ]).toArray();

@@ -19,6 +19,7 @@ const Buy = require('./routes/Buy.js');
 const checkOtp = require('./routes/Otp.js');
 const sell = require('./routes/Sell.js');
 const add_comment = require('./routes/addComment.js');
+const removeFromCart = require('./routes/Remove.js');
 // const CheckLogin = require('./routes/Login.js');
 mongo_connect(mongoURL);
 
@@ -78,6 +79,11 @@ app.use('/add_to_cart/:id',(req,res)=>{
     console.log('id is',id);
     addToCart(req,res,id);
 })
+app.use('/remove/:id',(req,res)=>{
+    const id = req.params.id;
+    console.log('id is',id);
+    removeFromCart(req,res,id);
+})
 app.use('/support',(req,res)=>{
     support(req,res);
 })
@@ -90,16 +96,16 @@ app.use('/buy',(req,res)=>{
 })
 app.use('/check_otp/:id',(req,res)=>{
     const id = req.params.id;
-    console.log('id2 is',id);
+    // console.log('id2 is',id);
     checkOtp(req,res);
 })
 app.use('/add_comment/:id',(req,res)=>{
-    const id = req.params.id;
-    console.log('id2 is',id);
+    // const id = req.params.id;
+    // console.log('id2 is',id);
     add_comment(req,res);
 })
 app.use('/sell',sell)
 
 app.listen(PORT,()=>{
-    console.log('listening on PORT');
+    console.log(`listening on PORT ${PORT}...`);
 })

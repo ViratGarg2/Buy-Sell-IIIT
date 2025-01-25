@@ -1,4 +1,7 @@
 import React, { useState } from "react";
+import { Button, TextField, Box, Typography, Paper } from "@mui/material";
+import EditIcon from "@mui/icons-material/Edit";
+import SaveIcon from "@mui/icons-material/Save";
 
 // Get user data from backend
 const handleProfile = async (setUser) => {
@@ -30,7 +33,7 @@ const handleProfile = async (setUser) => {
   }
 };
 
-// send update request to backend
+// Send update request to backend
 const updateProfile = async (fields, setUser) => {
   const authToken = localStorage.getItem("authToken");
   if (!authToken) {
@@ -46,13 +49,13 @@ const updateProfile = async (fields, setUser) => {
       },
       body: JSON.stringify(fields),
     });
-    console.log(fields,'hello');
+
     const data = await response.json();
 
     if (data.success) {
       alert("Profile updated successfully");
       setUser(fields);
-      window.location.href = '/profile';
+      window.location.href = "/profile";
     } else {
       alert(data.message);
     }
@@ -84,127 +87,91 @@ export default function Profile() {
   const handleSubmit = (e) => {
     e.preventDefault();
     updateProfile(fields, setUser);
-
   };
 
   if (!localStorage.getItem("authToken")) {
     return (
-      <div>
-        <h1>Unauthorized Access</h1>
-        <p>Please login to access this page</p>
-      </div>
+      <Box textAlign="center" mt={4}>
+        <Typography variant="h4" color="error">Unauthorized Access</Typography>
+        <Typography>Please login to access this page.</Typography>
+      </Box>
     );
   }
 
   return (
-    <div>
+    <Box mt={4} display="flex" justifyContent="center">
       {!user ? (
-        <form
-          onSubmit={(e) => {
-            e.preventDefault(); // Prevent form submission
-            handleProfile(setUser);
-          }}
-        ><div style={{justifyContent:"center",marginTop:"100px"}}>
-          <center>
-          <button style={{borderRadius: "10px",color:"white",background:"green"}} type="submit">Get Profile</button>
-          </center>
-          </div>
-        </form>
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={() => handleProfile(setUser)}
+        >
+          Get Profile
+        </Button>
       ) : (
-        <div>
-          <style>{`
-            .profile-container {
-              margin: 20px auto;
-              padding: 20px;
-              border: 1px solid #ccc;
-              border-radius: 10px;
-              max-width: 400px;
-              background-color: #f9f9f9;
-              font-family: Arial, sans-serif;
-            }
-            .profile-field {
-              margin: 10px 0;
-              font-size: 16px;
-            }
-            .edit-icon {
-              margin-left: 10px;
-              cursor: pointer;
-              color: #007BFF;
-            }
-            .text-box {
-              font-size: 16px;
-              padding: 5px;
-              border: 1px solid #ccc;
-              border-radius: 5px;
-              margin-right: 10px;
-            }
-            .save-button {
-              padding: 5px 10px;
-              font-size: 14px;
-              background-color: #007BFF;
-              color: white;
-              border: none;
-              border-radius: 5px;
-              cursor: pointer;
-            }
-            .save-button:hover {
-              background-color: #0056b3;
-            }
-            .submit-button {
-              margin-top: 20px;
-              padding: 10px 20px;
-              font-size: 16px;
-              background-color: green;
-              color: white;
-              border: none;
-              border-radius: 5px;
-              cursor: pointer;
-            }
-            .submit-button:hover {
-              background-color: darkgreen;
-            }
-          `}</style>
+        <Paper elevation={3} sx={{ padding: 4, width: "100%", maxWidth: 500 }}>
+          <Typography variant="h5" gutterBottom>
+            Edit Profile
+          </Typography>
+          {[
+            "first_name",
+            "last_name",
+            "contact_number",
+            "age",
+            "password",
+          ].map((field) => (
+            <Box
+              key={field}
+              display="flex"
+              alignItems="center"
+              justifyContent="space-between"
+              mb={2}
+            >
+              <Typography sx={{ fontWeight: "bold", flex: 1 }}>
+                {field.replace("_", " ").toUpperCase()}:
+              </Typography>
 
-          <div className="profile-container">
-            <h2>Edit Profile</h2>
-            {["first_name", "last_name", "contact_number","age","password"].map((field) => (
-              <div className="profile-field" key={field}>
-                <strong>
-                  {field.replace("_", " ").toUpperCase()}:
-                </strong>
-                {editingField === field ? (
-                  <>
-                    <input
-                      type="text"
-                      className="text-box"
-                      name={field}
-                      value={fields[field]}
-                      onChange={handleChange}
-                    />
-                    <button
-                      className="save-button"
-                      onClick={() => handleSave(field)}
-                    >
-                      Save
-                    </button>
-                  </>
-                ) : (
-                  <>
-                    <span>{user[field]}</span>
-                    <span
-                      className="edit-icon"
-                      onClick={() => handleEditClick(field)}
-                    >
-                      ✏️
-                    </span>
-                  </>
-                )}
-              </div>
-            ))}
-            <button style={{borderRadius: "10px",color:"white",background:"green"}} onClick={handleSubmit}>Submit Changes</button>
-          </div>
-        </div>
+              {editingField === field ? (
+                <>
+                  <TextField
+                    variant="outlined"
+                    size="small"
+                    name={field}
+                    value={fields[field] || ""}
+                    onChange={handleChange}
+                    sx={{ flex: 2, marginRight: 1 }}
+                  />
+                  <Button
+                    variant="contained"
+                    size="small"
+                    startIcon={<SaveIcon />}
+                    onClick={() => handleSave(field)}
+                  >
+                    Save
+                  </Button>
+                </>
+              ) : (
+                <>
+                  <Typography sx={{ flex: 2 }}>{user[field]}</Typography>
+                  <EditIcon
+                    onClick={() => handleEditClick(field)}
+                    sx={{ cursor: "pointer", color: "primary.main" }}
+                  />
+                </>
+              )}
+            </Box>
+          ))}
+          <Button
+            variant="contained"
+            color="success"
+            fullWidth
+            onClick={handleSubmit}
+            sx={{ mt: 2 }}
+          >
+            Submit Changes
+          </Button>
+        </Paper>
       )}
-    </div>
+    </Box>
   );
 }

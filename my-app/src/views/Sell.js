@@ -1,119 +1,133 @@
 import React, { useState } from "react";
-import { Link} from "react-router-dom";
-// import { useNavigate } from "react-router-dom";
-
-
-// const navigate = useNavigate(); 
+import { Link } from "react-router-dom";
+import {
+  Box,
+  TextField,
+  Button,
+  Typography,
+  Container,
+  Alert,
+} from "@mui/material";
 
 export default function Buy() {
   const [credentials, setCredentials] = useState({
     name: "",
     price: 0,
-    description:"",
-    category:"",
+    description: "",
+    category: "",
+    img_link: "",
   });
+  const [error, setError] = useState(null);
+
   const handleBuy = async (e) => {
     e.preventDefault();
     const authToken = localStorage.getItem("authToken");
     const response = await fetch("http://localhost:3001/sell", {
       method: "POST",
-      headers: { "Content-Type": "application/json" ,
-            "auth-token" : authToken
+      headers: {
+        "Content-Type": "application/json",
+        "auth-token": authToken,
       },
       body: JSON.stringify({
         name: credentials.name,
         price: credentials.price,
         description: credentials.description,
         category: credentials.category,
-        id:localStorage.getItem("id"),
+        img_link: credentials.img_link,
+        id: localStorage.getItem("id"),
       }),
     });
-    // console.log((await response).text(),'nothing much found');
+
     const json1 = await response.json();
-    // console.log(json1);
     if (!json1.success) {
-      alert(`Enter Valid details ${json1.message}`);
-    }else{
+      setError(json1.message);
+    } else {
       window.location.href = "/search";
     }
   };
+
   const onChange = (event) => {
     setCredentials({
       ...credentials,
       [event.target.name]: event.target.value,
     });
   };
+
+  if (!localStorage.getItem("authToken")) {
+    return (
+      <Typography variant="h4" color="green" textAlign="center">
+        Please login to sell
+      </Typography>
+    );
+  }
+
   return (
-    <>
-    <h1>Add Item</h1>
-      <div className="container">
-        <form onSubmit={handleBuy}>
-          <div style={{ "margin-left": 20 }}>
-            <div className="mb-3">
-              <label htmlFor="exampleFormControlInput1" className="form-label">
-                Name
-              </label>
-              <input
-                className="name"
-                id="exampleFormControlInput1"
-                name="name"
-                value={credentials.name}
-                onChange={onChange}
-              />
-            </div>
-            <div className="mb-3">
-              <label
-                htmlFor="exampleFormControlTextarea1"
-                className="form-label"
-              >
-                Price
-              </label>
-              <input
-                className="price"
-                type="number"
-                id="exampleFormControlTextarea1"
-                name="price"
-                onChange={onChange}
-              ></input>
-            </div>
-            <div className="mb-3">
-              <label
-                htmlFor="exampleFormControlTextarea1"
-                className="form-label"
-              >
-                Category
-              </label>
-              <input
-                className="category"
-                id="exampleFormControlTextarea1"
-                placeholder="name@example.iiit.ac.in"
-                name="category"
-                value={credentials.category}
-                onChange={onChange}
-              ></input>
-            </div>
-            <div className="mb-3">
-              <label
-                htmlFor="exampleFormControlTextarea1"
-                className="form-label"
-              >
-                Description
-              </label>
-              <input
-                className="description"
-                id="exampleFormControlTextarea1"
-                rows="1"
-                name="description"
-                value={credentials.description}
-                onChange={onChange}
-              ></input>
-            </div>
-            <button type="submit" className="m-3 btn btn-success">
-              Sell
-            </button>
-          </div>
-        </form>
-      </div>
-    </>
+    <Container maxWidth="sm">
+      <Typography
+        variant="h4"
+        align="center"
+        gutterBottom
+        sx={{ color: "green", marginTop: 4 }}
+      >
+        Add Item
+      </Typography>
+
+      {error && (
+        <Alert severity="error" sx={{ marginBottom: 2 }}>
+          {`Enter Valid details: ${error}`}
+        </Alert>
+      )}
+
+      <Box
+        component="form"
+        onSubmit={handleBuy}
+        sx={{ display: "flex", flexDirection: "column", gap: 2 }}
+      >
+        <TextField
+          label="Name"
+          name="name"
+          value={credentials.name}
+          onChange={onChange}
+          fullWidth
+          required
+        />
+        <TextField
+          label="Category"
+          name="category"
+          value={credentials.category}
+          onChange={onChange}
+          fullWidth
+          required
+        />
+        <TextField
+          label="Description"
+          name="description"
+          value={credentials.description}
+          onChange={onChange}
+          fullWidth
+          required
+        />
+        <TextField
+          label="Price"
+          type="number"
+          name="price"
+          value={credentials.price}
+          onChange={onChange}
+          fullWidth
+          required
+        />
+        <TextField
+          label="Image Link"
+          name="img_link"
+          value={credentials.img_link}
+          onChange={onChange}
+          fullWidth
+          required
+        />
+        <Button type="submit" variant="contained" color="success" fullWidth>
+          Submit
+        </Button>
+      </Box>
+    </Container>
   );
 }

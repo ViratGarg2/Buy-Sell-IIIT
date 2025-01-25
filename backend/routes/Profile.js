@@ -5,8 +5,6 @@ const User = require("../models/User.js");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 const jwtSecret = "IAmTheGreatestOfAllTimewwwwwwwww";
-const Product = require('../models/Product.js');
-// Route to get user details from authToken
 router.get("/get", async (req, res) => {
   const authToken = req.header("auth-token");
   if (!authToken) {

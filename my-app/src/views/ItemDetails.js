@@ -1,6 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import StarRating from '../components/StarRating';
+import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
+// import Button from "@mui/material/Button";
+import CommentIcon from "@mui/icons-material/Comment";
+import { TextField, Button, Box, Typography, Rating,Card, CardContent, CardMedia} from "@mui/material";
+
 
 const add_to_cart = async(id)=>{
     console.log('done');
@@ -104,19 +109,35 @@ const ItemDetails = () => {
   if (!itemDetails) {
     return <div>Item not found!</div>; // Handle case when no data is fetched
   }
-
+  if(localStorage.getItem('authToken')===null || localStorage.getItem('authToken') == ""){
+    return <div>Please login to view this page</div>;
+  }
   return (
     <div className="container mt-4">
       <div className="card">
         <div className="card-header">
           <h3>{itemDetails.name}</h3>
         </div>
+
         <div className="card-body">
+        <CardMedia
+  component="img"
+  height="300" // Adjust height for better visibility
+  image={itemDetails.img_link}
+  alt={itemDetails.name} // Use the product name as the alt text
+  sx={{
+    borderRadius: "8px", // Add rounded corners for a soft look
+    objectFit: "contain", // Ensure the image covers the area without distortion
+    boxShadow: "0px 10px 10px rgba(0, 0, 0, 0.1)", // Add a subtle shadow for depth
+    marginBottom: "16px", // Add spacing below the image
+    width: "50%", // Ensure the image takes up the full width of the card
+  }}
+/>
           <p>
             <strong>Description:</strong> {itemDetails.description}
           </p>
           <p>
-            <strong>Price:</strong> {itemDetails.price}
+            <strong>Price:</strong> ₹{itemDetails.price}
           </p>
           <p>
             <strong>Seller name:</strong> {itemDetails.seller_first_name} {itemDetails.seller_last_name}
@@ -139,18 +160,28 @@ const ItemDetails = () => {
             </div>
           ))}
           <div style={{ display: "flex", marginTop: "10px", gap: "10px" }}>
-            <button
-              style={{ borderRadius: "10px", color: "white", background: "green" }}
-              onClick={() => setShowCommentBox(true)}
-            >
-              Add Comment
-            </button>
-            <button
-              style={{ borderRadius: "10px", color: "white", background: "green" }}
-              onClick={() => add_to_cart(itemDetails.id)}
-            >
-              Add to Cart
-            </button>
+            <Button
+      variant="contained"
+      color="primary"
+      onClick={()=>setShowCommentBox(true)}
+      startIcon={<CommentIcon />}
+      style={{
+        borderRadius: "20px",
+        textTransform: "none",
+        backgroundColor: "#008000",
+      }}
+    >
+      Add Comment
+    </Button>
+            <Button
+      variant="contained"
+      color="success"
+      startIcon={<AddShoppingCartIcon />}
+      onClick={()=>add_to_cart(itemDetails.id)}
+      style={{ borderRadius: "20px", textTransform: "none" }}
+    >
+      Add to Cart
+    </Button>
           </div>
 
           {/* Comment Box */}
@@ -164,60 +195,74 @@ const ItemDetails = () => {
               }}
             >
               <h4>Add Your Comment</h4>
-              <div style={{ marginBottom: "10px" }}>
-                <label>
-                  <strong>Rating:</strong>
-                  <input
-                    type="number"
-                    min="1"
-                    max="5"
-                    value={commentData.rating}
-                    onChange={(e) =>
-                      setCommentData({ ...commentData, rating: Number(e.target.value) })
-                    }
-                    style={{ marginLeft: "10px", width: "50px" }}
-                  />
-                </label>
-              </div>
-              <div style={{ marginBottom: "10px" }}>
-                <label>
-                  <strong>Comment:</strong>
-                  <textarea
-                    rows="3"
-                    value={commentData.comment}
-                    onChange={(e) =>
-                      setCommentData({ ...commentData, comment: e.target.value })
-                    }
-                    style={{
-                      marginLeft: "10px",
-                      width: "100%",
-                      borderRadius: "5px",
-                      padding: "5px",
-                    }}
-                  />
-                </label>
-              </div>
-              <button
-                style={{
-                  borderRadius: "10px",
-                  color: "white",
-                  background: "green",
-                  marginRight: "10px",
-                }}
-                onClick={handleAddComment}
-              >
-                Submit
-              </button>
-              <button
-                style={{
-                  borderRadius: "10px",
-                  color: "white",
-                  background: "red",
-                }}
-                onClick={() => setShowCommentBox(false)}
-              >
-                Cancel
-              </button>
+              <Box
+      sx={{
+        padding: "20px",
+        border: "1px solid #ddd",
+        borderRadius: "10px",
+        maxWidth: "500px",
+        margin: "20px auto",
+        boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.1)",
+        backgroundColor: "#f9f9f9",
+      }}
+    >
+      <Typography variant="h5" gutterBottom>
+        Add Your Comment
+      </Typography>
+
+      {/* Rating */}
+      <Box sx={{ marginBottom: "20px" }}>
+        <Typography variant="body1" gutterBottom>
+          <strong>Rating:</strong>
+        </Typography>
+        <Rating
+          name="rating"
+          value={commentData.rating}
+          onChange={(event, newValue) =>
+            setCommentData({ ...commentData, rating: newValue })
+          }
+          precision={0.5} // Allows half-star ratings
+        />
+      </Box>
+
+      {/* Comment Box */}
+      <Box sx={{ marginBottom: "20px" }}>
+        <Typography variant="body1" gutterBottom>
+          <strong>Comment:</strong>
+        </Typography>
+        <TextField
+          fullWidth
+          multiline
+          rows={3}
+          variant="outlined"
+          value={commentData.comment}
+          onChange={(e) =>
+            setCommentData({ ...commentData, comment: e.target.value })
+          }
+          placeholder="Write your comment here..."
+        />
+      </Box>
+
+      {/* Buttons */}
+      <Box sx={{ display: "flex", justifyContent: "flex-end", gap: "10px" }}>
+        <Button
+          variant="contained"
+          color="success"
+          onClick={handleAddComment}
+          sx={{ borderRadius: "10px", textTransform: "none" }}
+        >
+          Submit
+        </Button>
+        <Button
+          variant="contained"
+          color="error"
+          onClick={() => setShowCommentBox(false)}
+          sx={{ borderRadius: "10px", textTransform: "none" }}
+        >
+          Cancel
+        </Button>
+      </Box>
+    </Box>
             </div>
           )}
         </div>

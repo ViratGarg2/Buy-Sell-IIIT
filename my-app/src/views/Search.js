@@ -1,44 +1,37 @@
-import React, { useState } from "react";
-// import Search1 from "../components/Search";
-// Fetch the items to display
+import React, { useState, useEffect } from "react";
+import { Box, Grid, Typography, TextField, Checkbox, FormControlLabel, Button, Card, CardContent, CardMedia } from "@mui/material";
 import { Link } from "react-router-dom";
-const getItems = async (setUser) => {
+
+// Fetch the items to display
+const getItems = async (setUser, setLoading) => {
   try {
     const response = await fetch("http://localhost:3001/search", {
       method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
+      headers: { "Content-Type": "application/json" },
     });
 
     const data = await response.json();
-    console.log("hi ");
     if (data.success) {
-      console.log("data is ");
-      console.log("data is ", data.Product);
       setUser(data.Product); // Update the state with the fetched product details
     } else {
       alert(data.message);
     }
   } catch (error) {
-    console.error("Error fetching profile:", error);
+    console.error("Error fetching items:", error);
+  } finally {
+    setLoading(false);
   }
 };
 
-
 export default function Search() {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState([]);
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategories, setSelectedCategories] = useState([]);
 
-  if (loading) {
-    setLoading(false);
-    getItems(setUser);
-  }
-  if (!user) {
-    return <div>No items found.</div>; // Handle the case when no data is fetched
-  }
+  useEffect(() => {
+    getItems(setUser, setLoading);
+  }, []);
 
   const handleCategoryChange = (category) => {
     setSelectedCategories((prev) =>
@@ -48,84 +41,120 @@ export default function Search() {
     );
   };
 
-
   const filteredItems = user.filter((item) => {
-    const matchesSearch =
-      item.name.toLowerCase().includes(searchQuery.toLowerCase());
-    const matchesCategory =
-      selectedCategories.length === 0 || selectedCategories.includes(item.category);
+    const matchesSearch = item.name.toLowerCase().includes(searchQuery.toLowerCase());
+    const matchesCategory = selectedCategories.length === 0 || selectedCategories.includes(item.category);
     return matchesSearch && matchesCategory;
   });
 
-  console.log('done');
-  if (!user) {
-    return <div>Loading...</div>; // Show loading message while fetching data
-  }
-
   return (
-    <div className="container mt-4">
-      <div className="search-bar mb-4">
-        <input
-          type="text"
-          className="form-control"
-          placeholder="Search by name..."
+    <Box sx={{ p: 4, backgroundColor: "#f9f9f9", minHeight: "100vh" }}>
+      <Typography variant="h4" gutterBottom sx={{ textAlign: "center", color: "#006400", fontWeight: "bold" }}>
+        Search Items
+      </Typography>
+
+      <Box sx={{ mb: 4 }}>
+        <TextField
+          fullWidth
+          label="Search by name"
+          variant="outlined"
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
-          style={{borderColor:"#1e9cb3",borderStyle:"ridge",borderWidth:"4px",outline:"none"}}
-          // onFocus={(e) => (e.target.style.borderColor = "#2d6e30")}
+          sx={{
+            borderColor: "#006400",
+            borderRadius: 1,
+            "& .MuiOutlinedInput-root": {
+              "&.Mui-focused fieldset": { borderColor: "#006400" },
+            },
+            color:"green",
+          }}
         />
-      </div>
+      </Box>
 
-      <div className="mt-3">
-        <h5>Filter by Category</h5>
+      <Box sx={{ mb: 4 }}>
+        <Typography variant="h6" sx={{ color: "#006400" }}>
+          Filter by Category
+        </Typography>
         {["Electronics", "Furniture", "Clothes"].map((category) => (
-          <div key={category}>
-            <input
-              type="checkbox"
-              id={category}
-              value={category}
-              checked={selectedCategories.includes(category)}
-              onChange={() => handleCategoryChange(category)}
-            />
-            <label htmlFor={category} style={{ marginLeft: "8px" }}>
-              {category}
-            </label>
-          </div>
+          <FormControlLabel
+            key={category}
+            control={
+              <Checkbox
+                checked={selectedCategories.includes(category)}
+                onChange={() => handleCategoryChange(category)}
+                sx={{ color: "#006400", "&.Mui-checked": { color: "#006400" } }}
+              />
+            }
+            label={category}
+          />
         ))}
-      </div>
+      </Box>
 
-
-      <div className="row mt-5">
-        {filteredItems.length > 0 ? (
-          filteredItems.map((item, index) => (
-            <div key={index} className="col-md-4 mb-3">
-              <Link to={`/search/${item.id}`} style={{textDecoration:"none",color:"inherit"}}>
-              <div className="card">
-                <div className="card-body">
-                  <h5 className="card-title">{item.name}</h5>
-                  <p className="card-text">{item.description}</p>
-                  <p className="card-text">
-                    <strong>Price:</strong> {item.price}
-                  </p>
-                  <div>
-                  <p className="card-text">
-                    <strong>Category:</strong> {item.category}
-                  </p>
-                {/* {localStorage.getItem("authToken") &&  (
-                    <button style={{background:"green",color:"white",borderRadius:"10px"}} onClick = {handleAddToCart(item._id)}>Add to cart</button>
-                )} */}
-                  </div>
-                </div>
-              </div>
+      {loading ? (
+        <Typography variant="h6" sx={{ textAlign: "center", color: "#666" }}>
+          Loading items...
+        </Typography>
+      ) : filteredItems.length > 0 ? (
+        <Grid container spacing={3}>
+          {filteredItems.map((item, index) => (
+            <Grid item xs={12} sm={6} md={4} key={index}>
+              <Link to={`/search/${item.id}`} style={{ textDecoration: "none", color: "inherit" }}>
+                <Card
+                  sx={{
+                    borderRadius: 2,
+                    boxShadow: "0 4px 8px rgba(0, 128, 0, 0.3)",
+                    transition: "transform 0.3s ease, box-shadow 0.3s ease",
+                    "&:hover": {
+                      transform: "scale(1.05)",
+                      boxShadow: "0 6px 12px rgba(0, 128, 0, 0.5)",
+                    },
+                  }}
+                >
+                  <CardMedia
+                    component="img"
+                    height="140"
+                    image={item.img_link}
+                    alt= "loading"
+                    sx={{ backgroundColor: "#f0f0f0" }}
+                  />
+                  <CardContent>
+                    <Typography
+                      variant="h6"
+                      gutterBottom
+                      sx={{ color: "#006400", fontWeight: "bold" }}
+                    >
+                      {item.name}
+                    </Typography>
+                    <Typography
+                      variant="body2"
+                      gutterBottom
+                      sx={{ color: "#006400", fontStyle: "italic" }}
+                    >
+                      {item.description}
+                    </Typography>
+                    <Typography
+                      variant="subtitle1"
+                      sx={{ color: "#006400", fontWeight: "bold" }}
+                    >
+                      Price: ₹{item.price}
+                    </Typography>
+                    <Typography
+                      variant="body2"
+                      sx={{ color: "#006400" }}
+                    >
+                      Category: {item.category}
+                    </Typography>
+                  </CardContent>
+                </Card>
               </Link>
-            </div>
-          ))
-        ) : (
-          <div className="col-12">
-            <p>No items found matching your search query.</p>
-          </div>
-        )}
-      </div>
-    </div>
+            </Grid>
+          ))}
+        </Grid>
+      ) : (
+        <Typography variant="h6" sx={{ textAlign: "center", color: "#666" }}>
+          No items found matching your search query.
+        </Typography>
+      )}
+    </Box>
   );
 }

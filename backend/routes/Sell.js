@@ -42,6 +42,7 @@ async function buy(req, res) {
       order_id: "some_order_id", // Placeholder for order ID
       id: productId,
       created_at: new Date(),
+      img_link:req.body.img_link,
     };
 
     // Insert the product into the "Product" collection

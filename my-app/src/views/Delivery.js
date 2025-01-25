@@ -1,4 +1,15 @@
 import React, { useState, useEffect } from "react";
+import {
+  Box,
+  Card,
+  CardContent,
+  CardActions,
+  Typography,
+  Button,
+  TextField,
+  Grid,
+  Alert,
+} from "@mui/material";
 
 const Delivery = () => {
   const [data, setData] = useState([]);
@@ -9,21 +20,20 @@ const Delivery = () => {
   // Function to check OTP
   const check_otp = async (orderId, otp) => {
     try {
-      // console.log(orderId, otp);
       const response = await fetch(`http://localhost:3001/check_otp/${orderId}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
           "auth-token": authToken,
         },
-        body: JSON.stringify({ otp:otp }), // Send only the OTP for the given order
+        body: JSON.stringify({ otp: otp }),
       });
 
       const result = await response.json();
 
       if (result.success) {
         alert("OTP Verified Successfully!");
-        window.location.href = '/delivery';
+        window.location.href = "/delivery";
       } else {
         alert("Invalid OTP. Please try again.");
       }
@@ -68,8 +78,6 @@ const Delivery = () => {
   const handleOtpSubmit = (e, orderId) => {
     e.preventDefault();
     const otp = otpInputs[orderId];
-    // console.log("OTP:",otp);
-    // console.log("id is sljbv:",orderId);
     if (otp) {
       check_otp(orderId, otp);
     } else {
@@ -77,67 +85,119 @@ const Delivery = () => {
     }
   };
 
-  if (error) return <p>Error: {error}</p>;
-  if(data.length == 0){
+  if (error) return <Alert severity="error">{error}</Alert>;
+  // if (data.length === 0) {
+  //   return (
+  //     <Typography
+  //       variant="h4"
+  //       align="center"
+  //       sx={{ color: "green", marginTop: "20px" }}
+  //     >
+  //       No Pending Orders
+  //     </Typography>
+  //   );
+  // }
+  if(!localStorage.getItem("authToken") || localStorage.getItem("authToken")==""){
     return (
-      <h1 style={{color:"green"}}>No Pending Orders</h1>
-    )
-  }
+      <>
+    <Box
+    sx={{
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "center",
+      justifyContent: "center",
+      minHeight: "100vh",
+      bgcolor: "#f8f9fa",
+      textAlign: "center",
+    }}
+  >
+    <Box
+      component="video"
+      src="./Ai" // Replace with your unauthorized video link
+      autoPlay
+      muted
+      loop
+      sx={{
+        width: "80%",
+        maxWidth: 600,
+        borderRadius: 2,
+        boxShadow: 2,
+        mb: 3,
+      }}
+    />
+    <Typography variant="h4" color="error" sx={{ mb: 2 }}>
+      Unauthorized Access
+    </Typography>
+    <Typography variant="body1" sx={{ mb: 3 }}>
+      You do not have permission to view this page. Please log in or contact support for assistance.
+    </Typography>
+  </Box>
+  </>
+    )  
+}
   return (
-    <div style={{ display: "flex", flexWrap: "wrap", gap: "16px" }}>
-      {data.map((item) => (
-        <div
-          key={item.id}
-          style={{
-            border: "1px solid #ccc",
-            borderRadius: "8px",
-            padding: "16px",
-            width: "300px",
-            boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
-          }}
-        >
-          <h3 style={{ marginBottom: "8px" }}>{item.itemName}</h3>
-          <p>
-            <strong>Buyer:</strong> {item.buyerName}
-          </p>
-          <p>
-            <strong>Order Value:</strong> {item.orderValue}
-          </p>
+    <Box sx={{ padding: "20px" }}>
+      <Typography variant="h4" gutterBottom sx={{ color: "green", mb: 3 }}>
+        Pending Deliveries
+      </Typography>
 
-          <form onSubmit={(e) => handleOtpSubmit(e, item.id)}>
-            <p>
-              <b>OTP</b>
-            </p>
-            <input
-              type="text"
-              value={otpInputs[item.id] || ""}
-              onChange={(e) => handleOtpChange(item.id, e.target.value)}
-              placeholder="Enter OTP"
-              style={{
-                border: "1px solid #ccc",
-                borderRadius: "4px",
-                padding: "8px",
-                width: "100%",
-                marginBottom: "8px",
+      <Grid container spacing={3}>
+        {data.map((item) => (
+          <Grid item xs={12} sm={6} md={4} key={item.id}>
+            <Card
+              sx={{
+                boxShadow: 3,
+                borderRadius: 2,
+                "&:hover": { boxShadow: 6 },
+                border: "1px solid #ddd",
               }}
-            />
-            <button
-              style={{
-                borderRadius: "10px",
-                color: "white",
-                background: "green",
-                padding: "8px 16px",
-                border: "none",
-                cursor: "pointer",
-              }}
-              type="submit"
             >
-              Submit
-            </button>
-          </form>
-        </div>
-      ))}
-    </div>
+              <CardContent>
+                <Typography
+                  variant="h6"
+                  gutterBottom
+                  sx={{ color: "green", fontWeight: "bold" }}
+                >
+                  {item.itemName}
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
+                  <strong>Buyer:</strong> {item.buyerName}
+                </Typography>
+                <Typography variant="body2" color="text.secondary" gutterBottom>
+                  <strong>Order Value:</strong> ₹{item.orderValue}
+                </Typography>
+                <form onSubmit={(e) => handleOtpSubmit(e, item.id)}>
+                  <TextField
+                    variant="outlined"
+                    size="small"
+                    label="Enter OTP"
+                    value={otpInputs[item.id] || ""}
+                    onChange={(e) => handleOtpChange(item.id, e.target.value)}
+                    fullWidth
+                    sx={{ marginBottom: 2 }}
+                  />
+                  <CardActions>
+                    <Button
+                      variant="contained"
+                      color="success"
+                      fullWidth
+                      type="submit"
+                      sx={{
+                        textTransform: "none",
+                        fontWeight: "bold",
+                        borderRadius: 1,
+                      }}
+                    >
+                      Submit
+                    </Button>
+                  </CardActions>
+                </form>
+              </CardContent>
+            </Card>
+          </Grid>
+        ))}
+      </Grid>
+    </Box>
   );
 };
 

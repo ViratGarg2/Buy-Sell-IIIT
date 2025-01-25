@@ -25,6 +25,7 @@ export default function Signup() {
         email: credentials.email,
         contact_number: credentials.contact_number,
         age: credentials.age,
+        password: credentials.password,
       }),
     });
     // console.log((await response).text(),'nothing much found');
@@ -46,106 +47,35 @@ export default function Signup() {
     <>
       <div className="container">
         <form onSubmit={handleSignup}>
-          <div style={{ "margin-left": 20 }}>
-            <div className="mb-3">
-              <label htmlFor="exampleFormControlInput1" className="form-label">
-                First Name
-              </label>
-              <input
-                className="first_name"
-                id="exampleFormControlInput1"
-                name="first_name"
-                value={credentials.first_name}
-                onChange={onChange}
-              />
-            </div>
-            <div className="mb-3">
-              <label
-                htmlFor="exampleFormControlTextarea1"
-                className="form-label"
-              >
-                Last Name
-              </label>
-              <input
-                className="last_name"
-                id="exampleFormControlTextarea1"
-                name="last_name"
-                onChange={onChange}
-              ></input>
-            </div>
-            <div className="mb-3">
-              <label
-                htmlFor="exampleFormControlTextarea1"
-                className="form-label"
-              >
-                Email
-              </label>
-              <input
-                className="email"
-                id="exampleFormControlTextarea1"
-                placeholder="name@example.iiit.ac.in"
-                name="email"
-                value={credentials.email}
-                onChange={onChange}
-              ></input>
-            </div>
-            <div className="mb-3">
-              <label
-                htmlFor="exampleFormControlTextarea1"
-                className="form-label"
-              >
-                Contact No.
-              </label>
-              <input
-                className="contact_number"
-                id="exampleFormControlTextarea1"
-                rows="1"
-                name="contact_number"
-                value={credentials.contact_number}
-                onChange={onChange}
-              ></input>
-            </div>
-            <div className="mb-3">
-              <label
-                htmlFor="exampleFormControlTextarea1"
-                className="form-label"
-              >
-                Age
-              </label>
-              <input
-                className="age"
-                id="exampleFormControlTextarea1"
-                type="number"
-                name="age"
-                value={credentials.age}
-                onChange={onChange}
-              ></input>
-              </div>
-              <div className="mb-3">
-              <label
-                htmlFor="exampleFormControlTextarea1"
-                className="form-label"
-              >
-                Password
-              </label>
-              <input
-                className="password"
-                id="exampleFormControlTextarea1"
-                name="password"
-                value={credentials.password}
-                onChange={onChange}
-                type="password"
-              ></input>
-            </div>
-
-            <button type="submit" className="m-3 btn btn-success">
-              Signup
-            </button>
-            <Link to="/login" className="m-3 btn danger">
+  <div class="mb-3">
+    <label for="exampleInputEmail1" class="form-label">First Name</label>
+    <input type="text" class="form-control" id="exampleInputEmail1" name="first_name" value={credentials.first_name} onChange={onChange}/>
+  </div>
+  <div class="mb-3">
+    <label for="exampleInputEmail1" class="form-label">Last Name</label>
+    <input type="text" class="form-control" id="exampleInputEmail1" name="last_name" value={credentials.last_name} onChange={onChange}/>
+  </div>
+  <div class="mb-3">
+    <label for="exampleInputEmail1" class="form-label">Email</label>
+    <input type="text" class="form-control" id="exampleInputEmail1" name="email" value={credentials.email} onChange={onChange}/>
+  </div>
+  <div class="mb-3">
+    <label for="exampleInputEmail1" class="form-label">Contact</label>
+    <input type="text" class="form-control" id="exampleInputEmail1" name="contact_number" value={credentials.contact_number} onChange={onChange}/>
+  </div>
+  <div class="mb-3">
+    <label for="exampleInputEmail1" class="form-label">Password</label>
+    <input type="password" class="form-control" id="exampleInputEmail1" name="password" value={credentials.password} onChange={onChange}/>
+  </div>
+  <div class="mb-3">
+    <label for="exampleInputEmail1" class="form-label">Age</label>x
+    <input type="number" class="form-control" id="exampleInputEmail1" name="age" value={credentials.age} onChange={onChange}/>
+  </div>
+  <button type="submit" class="btn btn-success">Submit</button>
+  <Link to="/login" className="m-3 btn danger">
               Already a User
             </Link>
-          </div>
-        </form>
+</form>
       </div>
     </>
   );

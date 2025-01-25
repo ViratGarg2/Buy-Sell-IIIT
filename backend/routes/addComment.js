@@ -19,8 +19,8 @@ async function addToCart(req, res) {
     const seller = await mongoose.connection.db.collection("Product").findOne({id:id});
     const {comment} = req.body;
     const name = await User.findOne({email:email})
-    console.log('name is ',seller.seller_id);
-    console.log('comment is ',comment);
+    // console.log('name is ',seller.seller_id);
+    // console.log('comment is ',comment);
     if (!comment.rating || !comment || comment.rating < 0 || comment.rating > 5) {
         return res.status(400).json({ success: false, message: "Invalid input for rating or comment" });
     }
@@ -37,7 +37,7 @@ async function addToCart(req, res) {
         { $push: { comment: newComment } }, // Push the new comment to the `comment` array
         { new: true } // Return the updated user document
       );
-      console.log('user is',updatedUser);
+    //   console.log('user is',updatedUser);
       // If user is not found
       if (!updatedUser) {
         return res.status(404).json({ success: false, message: "User not found" });

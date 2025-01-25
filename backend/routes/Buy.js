@@ -25,19 +25,24 @@ async function Buy(req, res) {
     if (cartItems.length === 0) {
       return res.status(400).json({ success: false, message: 'Cart is empty' });
     }
-
+    let amount = 0;
     for (const item of cartItems) {
         console.log('item is ',item);
       const product = await mongoose.connection.db.collection("Product").findOne({id:item.product_id});
       if (!product) {
         return res.status(404).json({ success: false, message: 'Product not found' });
-        break;
       }
+      amount += product.price;
     //   console.log(product);
 
       const orderId = crypto.randomUUID();
       const otp = Math.floor(100000 + Math.random() * 900000).toString(); // 6-digit OTP
-
+      if(user.id === product.seller_id){
+        return res.status(500).json({
+          success:false,
+          message:"Can't buy own items",
+        })
+      }
       const newOrder = {
         id: orderId,
         buyer_id: user.id, // Ensure it's stored as a string
@@ -62,6 +67,7 @@ async function Buy(req, res) {
   return res.status(201).json({
     success: true,
     message: 'Orders created successfully',
+    amount: amount,
   });
 }catch (error) {
     console.error('Error in creating orders:', error);
