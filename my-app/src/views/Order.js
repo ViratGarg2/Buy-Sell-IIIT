@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import ForbiddenAnimation from "../components/Access";
 
 export default function Orders() {
   const [orders, setOrders] = useState({
@@ -14,11 +15,6 @@ export default function Orders() {
   useEffect(() => {
     const fetchOrders = async () => {
       const authToken = localStorage.getItem("authToken");
-      if (!authToken) {
-        setError("Please log in to view your orders.");
-        setLoading(false);
-        return;
-      }
 
       try {
         const response = await fetch("http://localhost:3001/getData", {
@@ -46,15 +42,17 @@ export default function Orders() {
     fetchOrders();
   }, []);
 
-  if (loading) {
-    return <p>Loading...</p>;
-  }
+  // if (loading) {
+  //   return <p>Loading...</p>;
+  // }
 
-  if (error) {
-    return <p className="text-danger">{error}</p>;
-  }
-
-  // Render cards
+  if(!localStorage.getItem("authToken") || localStorage.getItem("authToken")==""){
+    return (
+      <>
+      <ForbiddenAnimation></ForbiddenAnimation>
+  </>
+    )  
+}
   return (
     <div className="container">
       <div className="mb-4">

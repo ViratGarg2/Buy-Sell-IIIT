@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import "./Chatbot.css";
+import ForbiddenAnimation from "../components/Access";
 
 const Chatbot = () => {
   const [messages, setMessages] = useState([]);
@@ -51,8 +52,11 @@ const Chatbot = () => {
     }
   };
 
-  if (!localStorage.getItem("authToken")) {
-    return <h1 style={{ color: "green" }}>Please login to use Support</h1>;
+  if (!localStorage.getItem("authToken") || localStorage.getItem("authToken") === "") {
+  return (  <>
+    <ForbiddenAnimation></ForbiddenAnimation>
+</>
+  )
   }
 
   return (

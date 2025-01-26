@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
 import {
   Box,
   TextField,
@@ -7,21 +6,32 @@ import {
   Typography,
   Container,
   Alert,
+  CircularProgress,
 } from "@mui/material";
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { storage } from "../firebase"; // Ensure this points to your Firebase configuration
 
-export default function Buy() {
+export default function Sell() {
   const [credentials, setCredentials] = useState({
     name: "",
     price: 0,
     description: "",
     category: "",
-    img_link: "",
   });
+  const [image, setImage] = useState(null); // To store the selected file
+  const [imageUploading, setImageUploading] = useState(false); // To track upload progress
+  const [imageUrl, setImageUrl] = useState(""); // To store the uploaded image URL
   const [error, setError] = useState(null);
 
   const handleBuy = async (e) => {
     e.preventDefault();
     const authToken = localStorage.getItem("authToken");
+
+    if (!imageUrl) {
+      setError("Please upload an image before submitting.");
+      return;
+    }
+
     const response = await fetch("http://localhost:3001/sell", {
       method: "POST",
       headers: {
@@ -33,7 +43,7 @@ export default function Buy() {
         price: credentials.price,
         description: credentials.description,
         category: credentials.category,
-        img_link: credentials.img_link,
+        img_link: imageUrl, // Use the uploaded image URL
         id: localStorage.getItem("id"),
       }),
     });
@@ -51,6 +61,36 @@ export default function Buy() {
       ...credentials,
       [event.target.name]: event.target.value,
     });
+  };
+
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setImage(file);
+    }
+  };
+
+  const handleImageUpload = async () => {
+    if (!image) {
+      setError("Please select an image to upload.");
+      return;
+    }
+
+    setImageUploading(true);
+    const storageRef = ref(storage, `images/${image.name}`);
+
+    try {
+      // Upload the file to Firebase Storage
+      await uploadBytes(storageRef, image);
+      const url = await getDownloadURL(storageRef);
+      setImageUrl(url);
+      setError(null);
+      alert("Image uploaded successfully!");
+    } catch (err) {
+      setError("Failed to upload image. Please try again.");
+    } finally {
+      setImageUploading(false);
+    }
   };
 
   if (!localStorage.getItem("authToken")) {
@@ -116,14 +156,29 @@ export default function Buy() {
           fullWidth
           required
         />
-        <TextField
-          label="Image Link"
-          name="img_link"
-          value={credentials.img_link}
-          onChange={onChange}
-          fullWidth
-          required
+
+        {/* File Input for Image */}
+        <input
+          type="file"
+          accept="image/*"
+          onChange={handleImageChange}
+          style={{ marginTop: "1rem" }}
         />
+        <Button
+          variant="outlined"
+          color="primary"
+          onClick={handleImageUpload}
+          disabled={imageUploading}
+        >
+          {imageUploading ? <CircularProgress size={20} /> : "Upload Image"}
+        </Button>
+
+        {imageUrl && (
+          <Alert severity="success" sx={{ marginBottom: 2 }}>
+            Image uploaded successfully.
+          </Alert>
+        )}
+
         <Button type="submit" variant="contained" color="success" fullWidth>
           Submit
         </Button>

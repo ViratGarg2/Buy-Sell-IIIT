@@ -13,6 +13,8 @@ import {
   CircularProgress,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
+import ForbiddenAnimation from "../components/Access";
+
 
 const Cart = () => {
   const authToken = localStorage.getItem("authToken");
@@ -108,20 +110,18 @@ const Cart = () => {
     }
   }, [authToken]);
 
-  if (!authToken) {
-    return (
-      <Typography variant="h5" align="center" color="green" mt={4}>
-        Please Login to See Your Cart
-      </Typography>
-    );
-  }
-
   let amount=0;
   data.forEach((item) => {
     amount += parseFloat(item[0].price);
     console.log('mount is ',amount);
   });
-
+  if(!localStorage.getItem("authToken") || localStorage.getItem("authToken")==""){
+    return (
+      <>
+      <ForbiddenAnimation></ForbiddenAnimation>
+  </>
+    )  
+}
   return (
     <Box sx={{ padding: "20px" }}>
       <Typography variant="h4" align="center" gutterBottom sx={{ color: "green" }}>

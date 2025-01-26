@@ -11,6 +11,8 @@ import {
   Alert,
 } from "@mui/material";
 
+import ForbiddenAnimation from "../components/Access";
+
 const Delivery = () => {
   const [data, setData] = useState([]);
   const [error, setError] = useState(null);
@@ -100,38 +102,7 @@ const Delivery = () => {
   if(!localStorage.getItem("authToken") || localStorage.getItem("authToken")==""){
     return (
       <>
-    <Box
-    sx={{
-      display: "flex",
-      flexDirection: "column",
-      alignItems: "center",
-      justifyContent: "center",
-      minHeight: "100vh",
-      bgcolor: "#f8f9fa",
-      textAlign: "center",
-    }}
-  >
-    <Box
-      component="video"
-      src="./Ai" // Replace with your unauthorized video link
-      autoPlay
-      muted
-      loop
-      sx={{
-        width: "80%",
-        maxWidth: 600,
-        borderRadius: 2,
-        boxShadow: 2,
-        mb: 3,
-      }}
-    />
-    <Typography variant="h4" color="error" sx={{ mb: 2 }}>
-      Unauthorized Access
-    </Typography>
-    <Typography variant="body1" sx={{ mb: 3 }}>
-      You do not have permission to view this page. Please log in or contact support for assistance.
-    </Typography>
-  </Box>
+      <ForbiddenAnimation></ForbiddenAnimation>
   </>
     )  
 }
