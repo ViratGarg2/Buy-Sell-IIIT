@@ -1,20 +1,25 @@
 import React, { useState, useEffect } from "react";
 import { Box, Grid, Typography, TextField, Checkbox, FormControlLabel, Button, Card, CardContent, CardMedia } from "@mui/material";
 import { Link } from "react-router-dom";
-
+import ForbiddenAnimation from "../components/Access";
 // Fetch the items to display
 const getItems = async (setUser, setLoading) => {
   try {
     const response = await fetch("http://localhost:3001/search", {
       method: "GET",
-      headers: { "Content-Type": "application/json" },
+      headers: { "Content-Type": "application/json",
+        "auth-token" : localStorage.getItem("authToken"),
+       },
     });
 
     const data = await response.json();
     if (data.success) {
       setUser(data.Product); // Update the state with the fetched product details
     } else {
-      alert(data.message);
+      console.log("item not found");
+      return (
+        <ForbiddenAnimation/>
+      )
     }
   } catch (error) {
     console.error("Error fetching items:", error);

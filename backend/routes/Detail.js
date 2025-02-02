@@ -8,6 +8,10 @@ async function Product1(req, res,id) {
   try {
     console.log("fetching detail...");
     const fetchData = mongoose.connection.db.collection("Product");
+    const token = req.headers['auth-token'];
+    if (!token) {
+      return res.status(401).json({ success: false});
+    }
     // // const id1 = id.toString();
     // // console.log(id1);
     // // console.log(fetchData.find({seller_id:"678bdb5c622ef703e8f09c31"}));

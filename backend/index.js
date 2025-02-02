@@ -20,6 +20,7 @@ const checkOtp = require('./routes/Otp.js');
 const sell = require('./routes/Sell.js');
 const add_comment = require('./routes/addComment.js');
 const removeFromCart = require('./routes/Remove.js');
+const Protection = require('./routes/Protection.js');
 // const CheckLogin = require('./routes/Login.js');
 mongo_connect(mongoURL);
 
@@ -51,19 +52,20 @@ app.use(express.urlencoded({ extended: true })); // Parses URL-encoded data
 app.get('/',(req,res)=>{
     res.send('Hello World');
 });
-
+// app.use('/check',Protection);
 app.use('/api',UserCreate);
-app.use('/profile',DisplayProfile);
-app.use('/getData',(req,res)=>{
+app.use('/profile',Protection,DisplayProfile);
+
+app.use('/getData',Protection,(req,res)=>{
     Show_Orders(req,res);
     console.log('get Data');
 });
-app.use('/delivery',(req,res)=>{
+app.use('/delivery',Protection,(req,res)=>{
     Left_Orders(req,res);
     // console.log('Hi I am gr8');
 })
 
-app.use('/search/:id',(req,res)=>{ const id = req.params.id; // Get the id from the URL
+app.use('/search/:id',Protection,(req,res)=>{ const id = req.params.id; // Get the id from the URL
     console.log('got it, ID:', id);
     Item2(req,res,id);
 });
@@ -84,7 +86,7 @@ app.use('/remove/:id',(req,res)=>{
     console.log('id is',id);
     removeFromCart(req,res,id);
 })
-app.use('/support',(req,res)=>{
+app.use('/support',Protection,(req,res)=>{
     support(req,res);
 })
 app.use('/getcart',(req,res)=>{
@@ -104,7 +106,7 @@ app.use('/add_comment/:id',(req,res)=>{
     // console.log('id2 is',id);
     add_comment(req,res);
 })
-app.use('/sell',sell)
+app.use('/sell',Protection,sell)
 
 app.listen(PORT,()=>{
     console.log(`listening on PORT ${PORT}...`);

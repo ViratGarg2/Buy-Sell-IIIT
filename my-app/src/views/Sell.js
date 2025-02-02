@@ -50,6 +50,8 @@ export default function Sell() {
 
     const json1 = await response.json();
     if (!json1.success) {
+      alert("Invalid Token");
+      window.location.href = "/search";
       setError(json1.message);
     } else {
       window.location.href = "/search";
@@ -93,13 +95,13 @@ export default function Sell() {
     }
   };
 
-  if (!localStorage.getItem("authToken")) {
-    return (
-      <Typography variant="h4" color="green" textAlign="center">
-        Please login to sell
-      </Typography>
-    );
-  }
+  // if (!localStorage.getItem("authToken")) {
+  //   return (
+  //     <Typography variant="h4" color="green" textAlign="center">
+  //       Please login to sell
+  //     </Typography>
+  //   );
+  // }
 
   return (
     <Container maxWidth="sm">

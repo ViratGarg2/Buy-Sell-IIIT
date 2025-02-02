@@ -45,14 +45,14 @@ async function Show_Orders(req, res) {
     for (const order of data1) {
       const itemName = await mongoose.connection.db.collection("Product").findOne({ id: order.product_id });
       order.itemName = itemName ? itemName.name : "Unknown Item";
-      // console.log(order.itemName);
+      console.log(order.itemName);
     }
     const data2 = await fetchData.find({ status: "delivered", seller_id: uniqueId }).toArray();
     for(const order of data2){
       const buyer = await mongoose.connection.db.collection("users").findOne({id:order.buyer_id});
       order.buyer = buyer.first_name;
       const item = await mongoose.connection.db.collection("Product").findOne({id:order.product_id});
-      // console.log('seller is ',item);
+      console.log('seller is ',item);
       order.item = item.name;
     }
     const data3 = await fetchData.find({ status: "delivered", buyer_id: uniqueId }).toArray();
@@ -64,15 +64,17 @@ async function Show_Orders(req, res) {
       order.item = item.name;
     }
     // console.log(item);
-    // console.log(data2);
-    // console.log(data3);
+    console.log(data2);
+    console.log(data3);
     return res.status(200).json({
+      success:true,
       pendingOrders: data1,
       deliveredAsSeller: data2,
       deliveredAsBuyer: data3,
       // item:item,
     });
   } catch (error) {
+    console.log("an error occured");
     console.error("Error in Show_Orders:", error);
     return res.status(500).send("Internal Server Error");
   }

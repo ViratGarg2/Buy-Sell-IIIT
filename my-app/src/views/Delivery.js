@@ -57,7 +57,11 @@ const Delivery = () => {
         });
 
         const result = await response.json();
+        if(result.success){
         setData(result.data);
+        }else{
+          alert('Not able to load');
+        }
       } catch (err) {
         setError(err.message);
       }
@@ -99,13 +103,13 @@ const Delivery = () => {
   //     </Typography>
   //   );
   // }
-  if(!localStorage.getItem("authToken") || localStorage.getItem("authToken")==""){
-    return (
-      <>
-      <ForbiddenAnimation></ForbiddenAnimation>
-  </>
-    )  
-}
+//   if(!localStorage.getItem("authToken") || localStorage.getItem("authToken")==""){
+//     return (
+//       <>
+//       <ForbiddenAnimation></ForbiddenAnimation>
+//   </>
+//     )  
+// }
   return (
     <Box sx={{ padding: "20px" }}>
       <Typography variant="h4" gutterBottom sx={{ color: "green", mb: 3 }}>

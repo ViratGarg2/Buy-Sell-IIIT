@@ -184,20 +184,6 @@ const ForbiddenAnimation = () => {
       >
         403 FORBIDDEN
       </p>
-      <p
-        id="credit"
-        style={{
-          position: "absolute",
-          bottom: "0",
-          width: "100%",
-          textAlign: "center",
-        }}
-      >
-        Created with the help of{" "}
-        <a href="http://dynamicsjs.com/" style={{ color: "rgb(115,102,102)" }}>
-          Dynamics.js
-        </a>
-      </p>
     </div>
   );
 };

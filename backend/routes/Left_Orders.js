@@ -14,6 +14,7 @@ async function Left_Orders(req, res) {
 
   let decodedId;
   try {
+    console.log("Working corretly");
     const decoded = jwt.verify(authToken, jwtSecret);
     decodedId = decoded.user.email; // Assuming the token has a user object with an id
     

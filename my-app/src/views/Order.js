@@ -25,10 +25,12 @@ export default function Orders() {
         });
 
         if (!response.ok) {
-          throw new Error(`Error: ${response.status}`);
+          // console.log(response.success);
+          return response.json({"error":"Not able to fetch"});
         }
 
         const data = await response.json();
+        console.log("Hello there you are fucked");  
         console.log(data);
         setOrders(data);
       } catch (err) {

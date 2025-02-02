@@ -5,7 +5,7 @@ import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 // import Button from "@mui/material/Button";
 import CommentIcon from "@mui/icons-material/Comment";
 import { TextField, Button, Box, Typography, Rating,Card, CardContent, CardMedia} from "@mui/material";
-
+import ForbiddenAnimation from "../components/Access";
 
 const add_to_cart = async(id)=>{
     console.log('done');
@@ -87,10 +87,11 @@ const ItemDetails = () => {
         const data = await response.json();
         if (data.success) {
             console.log('hi');
-            // console.log('data coming is',data);
           setItemDetails(data.Product); // Assuming API returns { success: true, item: {...} }
         } else {
-          alert(data.message || "Failed to fetch item details");
+          alert("Login to proceed");
+          window.location.href = "/search";
+          // alert(data.message || "Failed to fetch item details");
         }
       } catch (error) {
         console.error("Error fetching item details:", error);

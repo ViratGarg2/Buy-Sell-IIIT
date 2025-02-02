@@ -26,6 +26,7 @@ const Chatbot = () => {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          "auth-token" : localStorage.getItem("authToken"),
         },
         body: JSON.stringify({ message: input }),
       });
@@ -37,7 +38,7 @@ const Chatbot = () => {
         const botMessage = { author: "bot", content: data.message };
         setMessages((prevMessages) => [...prevMessages, botMessage]);
       } else {
-        throw new Error(data.message);
+        alert("Something went wrong");
       }
     } catch (error) {
       console.error("Error sending message:", error);
