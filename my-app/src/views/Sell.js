@@ -10,6 +10,7 @@ import {
 } from "@mui/material";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { storage } from "../firebase"; // Ensure this points to your Firebase configuration
+import CustomCursor from "../components/Cursor";
 
 export default function Sell() {
   const [credentials, setCredentials] = useState({
@@ -105,6 +106,7 @@ export default function Sell() {
 
   return (
     <Container maxWidth="sm">
+      <CustomCursor/>
       <Typography
         variant="h4"
         align="center"

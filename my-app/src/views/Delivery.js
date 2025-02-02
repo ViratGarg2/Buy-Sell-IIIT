@@ -10,6 +10,7 @@ import {
   Grid,
   Alert,
 } from "@mui/material";
+import CustomCursor from "../components/Cursor";
 
 import ForbiddenAnimation from "../components/Access";
 
@@ -112,6 +113,7 @@ const Delivery = () => {
 // }
   return (
     <Box sx={{ padding: "20px" }}>
+      <CustomCursor/>
       <Typography variant="h4" gutterBottom sx={{ color: "green", mb: 3 }}>
         Pending Deliveries
       </Typography>

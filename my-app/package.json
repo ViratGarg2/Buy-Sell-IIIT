@@ -13,6 +13,7 @@
     "cra-template": "1.2.0",
     "dynamics.js": "^1.1.5",
     "firebase": "^11.2.0",
+    "js-confetti": "^0.12.0",
     "jsonwebtoken": "^9.0.2",
     "mongosh": "^2.3.8",
     "react": "^19.0.0",

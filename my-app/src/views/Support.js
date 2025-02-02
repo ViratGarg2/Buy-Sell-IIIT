@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import "./Chatbot.css";
 import ForbiddenAnimation from "../components/Access";
+import CustomCursor from "../components/Cursor";
+
 
 const Chatbot = () => {
   const [messages, setMessages] = useState([]);
@@ -63,6 +65,7 @@ const Chatbot = () => {
   return (
     localStorage.getItem("authToken") && (
       <div className="chatbot-container">
+        <CustomCursor/> 
         <div className="chatbox">
           {messages.map((msg, index) => (
             <div

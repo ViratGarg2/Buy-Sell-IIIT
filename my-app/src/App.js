@@ -13,6 +13,7 @@ import ItemDetails from './views/ItemDetails.js';
 import Cart from './views/Cart.js';
 import Sell from './views/Sell.js';
 import Protected from './views/Protected.js';
+import Home from './views/Home.js';
 function App() {
   return (
     <>
@@ -20,7 +21,7 @@ function App() {
       <div>
       <Navbar/>
         <Routes>
-        <Route path = "/" element = {<Protected Component = {Login}/>}/>
+        <Route path = "/" element = {<Home/>}/>
           <Route path = "/login" element = {<Login/>}/>
           <Route path = "/signup" element = {<Signup/>}/>
           <Route path = "/search" element = {<Search/>}/>

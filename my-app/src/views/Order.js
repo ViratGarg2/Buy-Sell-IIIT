@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import ForbiddenAnimation from "../components/Access";
+import CustomCursor from "../components/Cursor";
 
 export default function Orders() {
   const [orders, setOrders] = useState({
@@ -57,6 +58,7 @@ export default function Orders() {
 }
   return (
     <div className="container">
+      <CustomCursor/>
       <div className="mb-4">
         <h2 style={{color:"darkgreen"}}>Pending Orders</h2>
         <div className="row" style={{color:"green"}}>

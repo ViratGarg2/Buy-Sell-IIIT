@@ -1,4 +1,5 @@
 import ForbiddenAnimation from "../components/Access";
+import CustomCursor from "../components/Cursor";
 
 export default function Protected(props){
     const {Component} = props
@@ -7,6 +8,7 @@ export default function Protected(props){
     // console.log(user);
     if(user){
     return (
+        // <CustomCursor/>
         <Component/>
     )
 }else{

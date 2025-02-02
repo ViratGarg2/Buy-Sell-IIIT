@@ -18,6 +18,9 @@ router.post(
     body("password", "Password should be at least 8 characters").isLength({
       min: 8,
     }),
+    body("contact_number", "Enter a valid phone number").isLength({
+      min: 10,max:10,
+    }),
     body("email", "Enter a valid email").isEmail(),
   ],
   async (req, res) => {

@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Button, TextField, Box, Typography, Paper } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import SaveIcon from "@mui/icons-material/Save";
+import CustomCursor from "../components/Cursor";
 
 // Get user data from backend
 const handleProfile = async (setUser) => {
@@ -92,6 +93,7 @@ export default function Profile() {
   if (!localStorage.getItem("authToken")) {
     return (
       <Box textAlign="center" mt={4}>
+        <CustomCursor/>
         <Typography variant="h4" color="error">Unauthorized Access</Typography>
         <Typography>Please login to access this page.</Typography>
       </Box>
@@ -100,6 +102,7 @@ export default function Profile() {
 
   return (
     <Box mt={4} display="flex" justifyContent="center">
+      <CustomCursor/>
       {!user ? (
         <Button
           variant="contained"

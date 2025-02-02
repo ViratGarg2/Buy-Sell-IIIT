@@ -14,6 +14,7 @@ import {
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import ForbiddenAnimation from "../components/Access";
+import CustomCursor from "../components/Cursor";
 
 
 const Cart = () => {
@@ -124,6 +125,7 @@ const Cart = () => {
 }
   return (
     <Box sx={{ padding: "20px" }}>
+      <CustomCursor/>
       <Typography variant="h4" align="center" gutterBottom sx={{ color: "green" }}>
         Your Cart
       </Typography>

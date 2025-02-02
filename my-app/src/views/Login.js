@@ -7,14 +7,24 @@ import {
   Typography,
   Box,
   Container,
-  Grid,
   Alert,
+  InputAdornment,
+  IconButton,
 } from "@mui/material";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
+import CustomCursor from "../components/Cursor";
+import JSConfetti from 'js-confetti'
 
 export default function Login() {
+
   const [credentials, setCredentials] = useState({ email: "", password: "" });
   const [recaptchaValue, setRecaptchaValue] = useState(null);
   const [error, setError] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+
+  const togglePasswordVisibility = () => {
+    setShowPassword((prev) => !prev);
+  };
 
   const onRecaptchaChange = (value) => {
     setRecaptchaValue(value);
@@ -36,17 +46,35 @@ export default function Login() {
     const json1 = await response.json();
 
     if (!json1.success) {
-      setError(json1.error); // Show error in alert
+      setError(json1.error);
     } else {
       localStorage.setItem("authToken", json1.authToken);
-      localStorage.setItem("first_name", json1.first_name);
-      localStorage.setItem("last_name", json1.last_name);
-      localStorage.setItem("contact_number", json1.contact_number);
-      localStorage.setItem("email", json1.email);
-      localStorage.setItem("id", json1.id);
+      // localStorage.setItem("first_name", json1.first_name);
+      // localStorage.setItem("last_name", json1.last_name);
+      // localStorage.setItem("contact_number", json1.contact_number);
+      // localStorage.setItem("email", json1.email);
+      // localStorage.setItem("id", json1.id);
 
       const authToken = localStorage.getItem("authToken");
 
+      // jsConfetti.addConfetti({
+      //   emojis: ["🎉", "✨", "🎊", "🥳", "💥"],
+      //   emojiSize: 50,
+      //   confettiNumber: 1000,
+      // });
+      const jsConfetti = new JSConfetti()
+      jsConfetti.addConfetti(
+        {
+        emojis: ["💸","💲","💵"],
+        emojiSize: 50,
+        confettiNumber: 150,
+        }
+      )
+  
+      // Redirect after a short delay to allow confetti animation
+      setTimeout(() => {
+        window.location.href = "/profile";
+      }, 2000);
       await fetch("http://localhost:3001/getData", {
         method: "GET",
         headers: {
@@ -54,8 +82,6 @@ export default function Login() {
           "auth-token": authToken,
         },
       });
-
-      window.location.href = "/profile";
     }
   };
 
@@ -65,6 +91,7 @@ export default function Login() {
 
   return (
     <Container maxWidth="sm" sx={{ marginTop: "50px" }}>
+      <CustomCursor/>
       <Box
         sx={{
           padding: "30px",
@@ -85,7 +112,6 @@ export default function Login() {
         )}
 
         <form onSubmit={handleSubmit}>
-          {/* Email Field */}
           <TextField
             fullWidth
             label="Email Address"
@@ -99,21 +125,28 @@ export default function Login() {
             required
           />
 
-          {/* Password Field */}
           <TextField
             fullWidth
             label="Password"
             variant="outlined"
-            type="password"
+            type={showPassword ? "text" : "password"}
             name="password"
             value={credentials.password}
             onChange={onChange}
             placeholder="Enter your password"
             sx={{ marginBottom: "20px" }}
             required
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position="end">
+                  <IconButton onClick={togglePasswordVisibility} edge="end">
+                    {showPassword ? <VisibilityOff /> : <Visibility />}
+                  </IconButton>
+                </InputAdornment>
+              ),
+            }}
           />
 
-          {/* reCAPTCHA */}
           <Box sx={{ display: "flex", justifyContent: "center", marginBottom: "20px" }}>
             <ReCAPTCHA
               sitekey="6LfvMcAqAAAAAPUU8hMajKcSJzLfCv4EYcnlEWqG"
@@ -121,33 +154,28 @@ export default function Login() {
             />
           </Box>
 
-          {/* Buttons */}
-          <Grid container spacing={2}>
-            <Grid item xs={12} sm={6}>
-              <Button
-                fullWidth
-                type="submit"
-                variant="contained"
-                color="success"
-                disabled={!recaptchaValue}
-                sx={{ borderRadius: "10px", textTransform: "none" }}
-              >
-                Login
-              </Button>
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <Button
-                fullWidth
-                variant="outlined"
-                color="primary"
-                component={Link}
-                to="/Signup"
-                sx={{ borderRadius: "10px", textTransform: "none" }}
-              >
-                New User
-              </Button>
-            </Grid>
-          </Grid>
+          <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+            <Button
+              fullWidth
+              type="submit"
+              variant="contained"
+              color="success"
+              disabled={!recaptchaValue}
+              sx={{ borderRadius: "10px", textTransform: "none", marginRight: "10px" }}
+            >
+              Login
+            </Button>
+            <Button
+              fullWidth
+              variant="outlined"
+              color="primary"
+              component={Link}
+              to="/Signup"
+              sx={{ borderRadius: "10px", textTransform: "none" }}
+            >
+              New User
+            </Button>
+          </Box>
         </form>
       </Box>
     </Container>

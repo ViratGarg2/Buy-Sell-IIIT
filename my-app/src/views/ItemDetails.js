@@ -6,7 +6,8 @@ import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import CommentIcon from "@mui/icons-material/Comment";
 import { TextField, Button, Box, Typography, Rating,Card, CardContent, CardMedia} from "@mui/material";
 import ForbiddenAnimation from "../components/Access";
-
+import CustomCursor from "../components/Cursor";
+import JSConfetti from "js-confetti";
 const add_to_cart = async(id)=>{
     console.log('done');
     const authToken = localStorage.getItem('authToken');
@@ -20,7 +21,17 @@ const add_to_cart = async(id)=>{
           });
           const data = await response.json();
           if(data.success){
-            alert('Item added to cart');
+            const jsConfetti = new JSConfetti()
+            jsConfetti.addConfetti(
+              {
+              emojiSize: 70,
+              confettiNumber: 150,
+              }
+            )
+            setTimeout(()=>{
+            alert("Item added to cart");
+            },3000,);
+            // alert('Item added to cart');
           }else{
             alert(data.message);
           }
@@ -81,6 +92,7 @@ const ItemDetails = () => {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
+            "auth-token": localStorage.getItem("authToken"),
           },
         });
 
@@ -115,6 +127,7 @@ const ItemDetails = () => {
   }
   return (
     <div className="container mt-4">
+      <CustomCursor/>
       <div className="card">
         <div className="card-header">
           <h3>{itemDetails.name}</h3>

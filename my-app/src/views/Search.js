@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Box, Grid, Typography, TextField, Checkbox, FormControlLabel, Button, Card, CardContent, CardMedia } from "@mui/material";
 import { Link } from "react-router-dom";
 import ForbiddenAnimation from "../components/Access";
+import CustomCursor from "../components/Cursor";
 // Fetch the items to display
 const getItems = async (setUser, setLoading) => {
   try {
@@ -53,7 +54,9 @@ export default function Search() {
   });
 
   return (
+    
     <Box sx={{ p: 4, backgroundColor: "#f9f9f9", minHeight: "100vh" }}>
+      <CustomCursor/>
       <Typography variant="h4" gutterBottom sx={{ textAlign: "center", color: "#006400", fontWeight: "bold" }}>
         Search Items
       </Typography>

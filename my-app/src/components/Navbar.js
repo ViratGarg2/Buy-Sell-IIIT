@@ -27,15 +27,18 @@ export default function Navbar() {
     <AppBar position="static" sx={{ backgroundColor: "#185227" }}>
       <Toolbar>
         {/* Logo or Brand Name */}
-        <Typography
-          variant="h6"
-          component="div"
-          sx={{ flexGrow: 1, textDecoration: "none", color: "inherit" }}
-        >
-          <Link to="/" style={{ textDecoration: "none", color: "inherit" }}>
-            Buy-Sell
-          </Link>
-        </Typography>
+        <Typography variant="h6" component="div" sx={{ 
+    flexGrow: 1, 
+    display: "flex", 
+    // alignItems: "center", 
+    // justifyContent: "flex-start", 
+    height: "64px" // Adjust this based on your navbar height
+  }}>
+  <Link to="/">
+    <img src="logo512.png" alt="lBuy" style={{ width: "80px", height: "80px",scale:"2"}} />
+  </Link>
+</Typography>
+
 
         {/* Tabs for Navigation */}
         <Tabs
@@ -48,6 +51,7 @@ export default function Navbar() {
             "& .MuiTab-root": { textTransform: "none", fontSize: "16px" },
           }}
         >
+           <Tab label="Home" component={Link} to="/" />
           <Tab label="Search" component={Link} to="/search" />
           <Tab label="History" component={Link} to="/history" />
           <Tab label="Delivery" component={Link} to="/delivery" />
