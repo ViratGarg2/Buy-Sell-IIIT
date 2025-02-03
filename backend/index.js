@@ -2,10 +2,13 @@ const express = require('express');
 const app = express();
 const PORT = 3001;
 const mongoURL = "mongodb+srv://gargvirat5:zRJAXvPCPhkKkJb1@cluster0.zsao1.mongodb.net/Buy-Sell?retryWrites=true&w=majority";
+const cors = require("cors");
+const bodyParser = require("body-parser");
+const passport = require("passport");
+const session = require("express-session");
 const mongo_connect = require('./connection.js');
 const UserCreate = require('./routes/User_oper.js');
 const DisplayProfile = require('./routes/Profile.js');
-const cors = require("cors");
 const Show_Orders = require("./routes/Show_Orders.js");
 const Left_Orders = require('./routes/Left_Orders.js');
 const Item = require('./routes/Product.js');
@@ -46,9 +49,22 @@ app.use((req,res,next)=>{
     next();
 })
 
+
+// Middleware
+app.use(cors());
+app.use(bodyParser.json());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true })); // Parses URL-encoded data
-
+app.use(
+    session({
+      secret: "your_secret_key",
+      resave: false,
+      saveUninitialized: true,
+    })
+  );
+  app.use(passport.initialize());
+  app.use(passport.session());
+  
 app.get('/',(req,res)=>{
     res.send('Hello World');
 });

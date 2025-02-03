@@ -15,6 +15,7 @@ const checkOTP = async (req, res) => {
     }
     // console.log('order is ',order[0]);
     console.log(otp,order[0].hashed_otp);
+    console.log("otp is",otp);
     if (order[0].hashed_otp === otp.toString()) {
       try {
         const result = await mongoose.connection.db.collection("Order").updateOne(

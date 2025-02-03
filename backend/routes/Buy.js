@@ -36,7 +36,7 @@ async function Buy(req, res) {
     //   console.log(product);
 
       const orderId = crypto.randomUUID();
-      const otp = Math.floor(100000 + Math.random() * 900000).toString(); // 6-digit OTP
+      const otp = Math.floor(100000 + Math.random() * 900000).toString(); 
       if(user.id === product.seller_id){
         return res.status(500).json({
           success:false,

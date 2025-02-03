@@ -169,7 +169,8 @@ export default function Login() {
               color="success"
               sx={{ borderRadius: "10px", textTransform: "none", marginRight: "10px" }}
               onClick = {()=>{
-                window.location.href = "https://login.iiit.ac.in/cas/login?service=https%3A%2F%2Fcourses.iiit.ac.in%2Flogin%2Findex.php%3FauthCAS%3DCAS";
+                window.location.href= "http://localhost:3001/user/cas_login"
+                // <a href="http://localhost:3001/user/cas_login">Login with CAS</a>
               }}
             >
               CAS Login
