@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Box, Grid, Typography, TextField, Checkbox, FormControlLabel, Button, Card, CardContent, CardMedia } from "@mui/material";
+import { Box, Grid, Typography, TextField, Checkbox, FormControlLabel, CircularProgress, Card, CardContent, CardMedia } from "@mui/material";
 import { Link } from "react-router-dom";
 import ForbiddenAnimation from "../components/Access";
 import CustomCursor from "../components/Cursor";
@@ -99,9 +99,9 @@ export default function Search() {
       </Box>
 
       {loading ? (
-        <Typography variant="h6" sx={{ textAlign: "center", color: "#666" }}>
-          Loading items...
-        </Typography>
+        <Box display="flex" justifyContent="center" alignItems="center" height="80vh">
+        <CircularProgress color="success" />
+      </Box>
       ) : filteredItems.length > 0 ? (
         <Grid container spacing={3}>
           {filteredItems.map((item, index) => (

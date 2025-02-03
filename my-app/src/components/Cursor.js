@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { styled } from "@mui/system";
 
 // Ensure you have the dollar image in the appropriate path
-import dollarImage from "./done.png"; // Or use a URL like "https://path.to/dollar.png"
+import dollarImage from "./dollar4.png"; // Or use a URL like "https://path.to/dollar.png"
 
 const Cursor = styled("div")({
   position: "fixed",
@@ -10,7 +10,7 @@ const Cursor = styled("div")({
   height: "30px", // Adjust size as per the image dimensions
   pointerEvents: "none",
   transform: "translate(-50%, -50%)",
-  boxShadow: "0px 0px 15px 10px rgba(55, 250, 50, 0.7)",
+  boxShadow: "0px 0px 5px 5px rgba(250, 250, 0, 0.5)",
   zIndex: 9999,
   borderRadius: "50%",
 });

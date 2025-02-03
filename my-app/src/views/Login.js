@@ -49,11 +49,7 @@ export default function Login() {
       setError(json1.error);
     } else {
       localStorage.setItem("authToken", json1.authToken);
-      // localStorage.setItem("first_name", json1.first_name);
-      // localStorage.setItem("last_name", json1.last_name);
-      // localStorage.setItem("contact_number", json1.contact_number);
-      // localStorage.setItem("email", json1.email);
-      // localStorage.setItem("id", json1.id);
+      localStorage.setItem("id", json1.id);
 
       const authToken = localStorage.getItem("authToken");
 
@@ -81,6 +77,7 @@ export default function Login() {
           "Content-Type": "application/json",
           "auth-token": authToken,
         },
+        
       });
     }
   };
@@ -167,6 +164,18 @@ export default function Login() {
             </Button>
             <Button
               fullWidth
+              type="submit"
+              variant="contained"
+              color="success"
+              sx={{ borderRadius: "10px", textTransform: "none", marginRight: "10px" }}
+              onClick = {()=>{
+                window.location.href = "https://login.iiit.ac.in/cas/login?service=https%3A%2F%2Fcourses.iiit.ac.in%2Flogin%2Findex.php%3FauthCAS%3DCAS";
+              }}
+            >
+              CAS Login
+            </Button>
+            <Button
+              fullWidth
               variant="outlined"
               color="primary"
               component={Link}
@@ -175,6 +184,7 @@ export default function Login() {
             >
               New User
             </Button>
+
           </Box>
         </form>
       </Box>

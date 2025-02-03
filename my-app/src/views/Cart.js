@@ -11,17 +11,22 @@ import {
   IconButton,
   Alert,
   CircularProgress,
+  Snackbar,
 } from "@mui/material";
+import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import CloseIcon from "@mui/icons-material/Close";
 import ForbiddenAnimation from "../components/Access";
 import CustomCursor from "../components/Cursor";
-
+import { set } from "firebase/database";
 
 const Cart = () => {
   const authToken = localStorage.getItem("authToken");
   const [error, setError] = useState(null);
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
+  // for success message
+  const [openSnackbar, setOpenSnackbar] = useState(false);
+  const [message, setMessage] = useState("");
 
   const removeItem = async (itemId) => {
     const confirmRemove = window.confirm(
@@ -39,6 +44,8 @@ const Cart = () => {
 
         const result = await response.json();
         if (result.success) {
+    //       setSelectedItem(itemId);
+    // setOpenDialog(true);
           setData((prevData) =>
             prevData.filter((item) => item[0].id !== itemId)
           );
@@ -69,8 +76,13 @@ const Cart = () => {
 
         const data = await response.json();
         if (data.success) {
-          alert("Order Placed Successfully");
-          window.location.href = "/cart";
+          setOpenSnackbar(true);
+          setMessage("Order placed successfully!");
+          setTimeout(()=>{
+             window.location.href = "/cart";
+            console.log("Hello from me");
+          },2000);
+         
         } else {
           alert(data.message);
         }
@@ -126,11 +138,34 @@ const Cart = () => {
   return (
     <Box sx={{ padding: "20px" }}>
       <CustomCursor/>
+      <Snackbar
+        open={openSnackbar}
+        autoHideDuration={2000}
+        onClose={() => setOpenSnackbar(false)}
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+      >
+    <Alert onClose={() => setOpenSnackbar(false)} severity="success" variant="filled">
+      {message}
+    </Alert>
+  </Snackbar>
+
       <Typography variant="h4" align="center" gutterBottom sx={{ color: "green" }}>
         Your Cart
       </Typography>
+      <Box align="center">
+  {data.length === 0 ? (
+    <img src="/empty-cart.svg"
+    alt="Empty Cart"
+    style={{ transform: "scale(0.5)", width: "50%", height: "auto" }}/>
+  ) : (
+    <Typography variant="h6"></Typography> // Or simply null
+  )}
+</Box>
+
       {error && <Alert severity="error">{error}</Alert>}
       <Grid container spacing={3}>
+
+
         {data.map((item, index) => (
           <Grid item xs={12} sm={6} md={4} key={index}>
             <Card sx={{ position: "relative", boxShadow: 3 }}>

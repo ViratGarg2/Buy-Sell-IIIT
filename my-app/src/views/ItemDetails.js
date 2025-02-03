@@ -4,42 +4,12 @@ import StarRating from '../components/StarRating';
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 // import Button from "@mui/material/Button";
 import CommentIcon from "@mui/icons-material/Comment";
-import { TextField, Button, Box, Typography, Rating,Card, CardContent, CardMedia} from "@mui/material";
+import { TextField, Button, Box, Typography, Rating,Card, CardContent, CardMedia,Snackbar} from "@mui/material";
 import ForbiddenAnimation from "../components/Access";
 import CustomCursor from "../components/Cursor";
 import JSConfetti from "js-confetti";
-const add_to_cart = async(id)=>{
-    console.log('done');
-    const authToken = localStorage.getItem('authToken');
-        try {
-          const response = await fetch(`http://localhost:3001/add_to_cart/${id}`, {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              "auth-token": authToken,
-            },
-          });
-          const data = await response.json();
-          if(data.success){
-            const jsConfetti = new JSConfetti()
-            jsConfetti.addConfetti(
-              {
-              emojiSize: 70,
-              confettiNumber: 150,
-              }
-            )
-            setTimeout(()=>{
-            alert("Item added to cart");
-            },3000,);
-            // alert('Item added to cart');
-          }else{
-            alert(data.message);
-          }
-        }
-          catch(error){
-            console.log(`An error occured ${error}`);
-          }
-}
+import Alert from '@mui/material/Alert';
+
 
 const add_comment = async(id,comment)=>{
   console.log('done');
@@ -73,6 +43,47 @@ const ItemDetails = () => {
   const [loading, setLoading] = useState(true);
   const [showCommentBox, setShowCommentBox] = useState(false);
   const [commentData, setCommentData] = useState({ rating: 0, comment: "" });
+  const [openSnackbar, setOpenSnackbar] = useState(false);
+const [message, setMessage] = useState("");
+
+
+
+const add_to_cart = async(id)=>{
+
+  // console.log('done');
+  const authToken = localStorage.getItem('authToken');
+      try {
+        const response = await fetch(`http://localhost:3001/add_to_cart/${id}`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "auth-token": authToken,
+          },
+        });
+        const data = await response.json();
+        if(data.success){
+          const jsConfetti = new JSConfetti();
+          jsConfetti.addConfetti(
+            {
+            emojiSize: 70,
+            confettiNumber: 150,
+            }
+          )
+          setTimeout(()=>{
+          },3000,);
+
+      setOpenSnackbar(true);
+      setMessage("Item added to cart");
+
+          // alert('Item added to cart');
+        }else{
+          alert(data.message);
+        }
+      }
+        catch(error){
+          console.log(`An error occured ${error}`);
+        }
+}
 
   const handleAddComment = () => {
     if (commentData.rating === 0 || commentData.comment.trim() === "") {
@@ -132,7 +143,16 @@ const ItemDetails = () => {
         <div className="card-header">
           <h3>{itemDetails.name}</h3>
         </div>
-
+        <Snackbar
+        open={openSnackbar}
+        autoHideDuration={3000}
+        onClose={() => setOpenSnackbar(false)}
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+      >
+        <Alert onClose={() => setOpenSnackbar(false)} severity="success" variant="filled">
+          {message}
+        </Alert>
+      </Snackbar>
         <div className="card-body">
         <CardMedia
   component="img"
@@ -191,7 +211,7 @@ const ItemDetails = () => {
       variant="contained"
       color="success"
       startIcon={<AddShoppingCartIcon />}
-      onClick={()=>add_to_cart(itemDetails.id)}
+      onClick={()=>{add_to_cart(itemDetails.id)}}
       style={{ borderRadius: "20px", textTransform: "none" }}
     >
       Add to Cart

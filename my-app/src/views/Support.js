@@ -3,7 +3,6 @@ import "./Chatbot.css";
 import ForbiddenAnimation from "../components/Access";
 import CustomCursor from "../components/Cursor";
 
-
 const Chatbot = () => {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
@@ -28,7 +27,7 @@ const Chatbot = () => {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "auth-token" : localStorage.getItem("authToken"),
+          "auth-token": localStorage.getItem("authToken"),
         },
         body: JSON.stringify({ message: input }),
       });
@@ -56,44 +55,47 @@ const Chatbot = () => {
   };
 
   if (!localStorage.getItem("authToken") || localStorage.getItem("authToken") === "") {
-  return (  <>
-    <ForbiddenAnimation></ForbiddenAnimation>
-</>
-  )
+    return <ForbiddenAnimation />;
   }
 
   return (
-    localStorage.getItem("authToken") && (
-      <div className="chatbot-container">
-        <CustomCursor/> 
-        <div className="chatbox">
-          {messages.map((msg, index) => (
-            <div
-              key={index}
-              className={
-                msg.author === "user"
-                  ? "message user-message"
-                  : "message bot-message"
-              }
-            >
-              {msg.content}
-            </div>
-          ))}
-          {isLoading && <p>Trying..</p>}
-        </div>
-        <div className="input-container">
-          <input
-            type="text"
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-            placeholder="Type your message..."
-            onKeyDown={(e) => e.key === "Enter" && handleSend()}
-          />
-          <button style={{borderRadius: "10px",color:"white",background:"green"}} onClick = {handleSend}>Send</button>
-          {/* <button onClick={handleSend}>Send</button> */}
-        </div>
+    <div className="chatbot-container">
+      <CustomCursor />
+      <div className="chatbox">
+        {messages.map((msg, index) => (
+          <div
+            key={index}
+            className={
+              msg.author === "user"
+                ? "message user-message"
+                : "message bot-message"
+            }
+          >
+            {msg.content}
+          </div>
+        ))}
+        {isLoading && <div className="loader"></div>}
       </div>
-    )
+      <div className="input-container">
+        <input
+          type="text"
+          value={input}
+          onChange={(e) => setInput(e.target.value)}
+          placeholder="Type your message..."
+          onKeyDown={(e) => e.key === "Enter" && handleSend()}
+        />
+        <button
+          style={{
+            borderRadius: "10px",
+            color: "white",
+            background: "green",
+          }}
+          onClick={handleSend}
+        >
+          Send
+        </button>
+      </div>
+    </div>
   );
 };
 

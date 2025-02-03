@@ -7,6 +7,10 @@ import {
   Container,
   Alert,
   CircularProgress,
+  Select,
+  MenuItem,
+  InputLabel,
+  FormControl,
 } from "@mui/material";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { storage } from "../firebase"; // Ensure this points to your Firebase configuration
@@ -17,7 +21,7 @@ export default function Sell() {
     name: "",
     price: 0,
     description: "",
-    category: "",
+    category: "", // Will store the selected category
   });
   const [image, setImage] = useState(null); // To store the selected file
   const [imageUploading, setImageUploading] = useState(false); // To track upload progress
@@ -96,17 +100,9 @@ export default function Sell() {
     }
   };
 
-  // if (!localStorage.getItem("authToken")) {
-  //   return (
-  //     <Typography variant="h4" color="green" textAlign="center">
-  //       Please login to sell
-  //     </Typography>
-  //   );
-  // }
-
   return (
     <Container maxWidth="sm">
-      <CustomCursor/>
+      <CustomCursor />
       <Typography
         variant="h4"
         align="center"
@@ -135,14 +131,22 @@ export default function Sell() {
           fullWidth
           required
         />
-        <TextField
-          label="Category"
-          name="category"
-          value={credentials.category}
-          onChange={onChange}
-          fullWidth
-          required
-        />
+        
+        {/* Dropdown for Category */}
+        <FormControl fullWidth required>
+          <InputLabel>Category</InputLabel>
+          <Select
+            name="category"
+            value={credentials.category}
+            onChange={onChange}
+            label="Category"
+          >
+            <MenuItem value="Furniture">Furniture</MenuItem>
+            <MenuItem value="Clothes">Clothes</MenuItem>
+            <MenuItem value="Electronics">Electronics</MenuItem>
+          </Select>
+        </FormControl>
+
         <TextField
           label="Description"
           name="description"

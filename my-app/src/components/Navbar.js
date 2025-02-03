@@ -26,16 +26,13 @@ export default function Navbar() {
   return (
     <AppBar position="static" sx={{ backgroundColor: "#185227" }}>
       <Toolbar>
-        {/* Logo or Brand Name */}
         <Typography variant="h6" component="div" sx={{ 
     flexGrow: 1, 
     display: "flex", 
-    // alignItems: "center", 
-    // justifyContent: "flex-start", 
-    height: "64px" // Adjust this based on your navbar height
+    height: "64px"
   }}>
   <Link to="/">
-    <img src="logo512.png" alt="lBuy" style={{ width: "80px", height: "80px",scale:"2"}} />
+    <img src="./logo512.png" alt="lBuy" style={{ width: "80px", height: "80px",scale:"2"}} />
   </Link>
 </Typography>
 

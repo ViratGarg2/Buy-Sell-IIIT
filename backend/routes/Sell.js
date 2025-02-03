@@ -23,6 +23,7 @@ async function buy(req, res) {
     // console.log("Decoded email:", email);
 
     // Fetch the seller details from the "users" collection
+    console.log(req.body);
     const seller = req.body;
     console.log(seller);
     if (!seller) {
