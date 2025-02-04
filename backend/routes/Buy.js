@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const jwt = require('jsonwebtoken');
-const jwtSecret = 'IAmTheGreatestOfAllTimewwwwwwwww'; // Ensure this matches your secret
+const jwtSecret = process.env.JWT; // Ensure this matches your secret
 // const bcrypt = require('bcrypt'); // For hashing OTPs
 const crypto = require('crypto'); // For generating random IDs and OTPs
 async function Buy(req, res) {

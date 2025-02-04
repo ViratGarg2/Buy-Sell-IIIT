@@ -1,7 +1,8 @@
 const express = require('express');
 const app = express();
-const PORT = 3001;
-const mongoURL = "mongodb+srv://gargvirat5:zRJAXvPCPhkKkJb1@cluster0.zsao1.mongodb.net/Buy-Sell?retryWrites=true&w=majority";
+require('dotenv').config();
+const PORT = process.env.PORT;
+const mongoURL = process.env.MONGO_URL;
 const cors = require("cors");
 const bodyParser = require("body-parser");
 const passport = require("passport");
@@ -17,22 +18,18 @@ const Update = require('./routes/Update.js');
 const addToCart = require('./routes/addToCart.js');
 const support = require('./routes/Support.js');
 const Cart = require('./routes/Cart.js');
-const mongoose = require('mongoose');
 const Buy = require('./routes/Buy.js');
 const checkOtp = require('./routes/Otp.js');
 const sell = require('./routes/Sell.js');
 const add_comment = require('./routes/addComment.js');
 const removeFromCart = require('./routes/Remove.js');
 const Protection = require('./routes/Protection.js');
-// const CheckLogin = require('./routes/Login.js');
+const frontend_url = process.env.BACKEND_URL;
 mongo_connect(mongoURL);
 
 
-
-
-
 app.use(cors({
-    origin: "http://localhost:3000", // Your frontend origin
+    origin: frontend_url, // Your frontend origin
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "auth-token","Authorization"] // Include 'auth-token' here
   }));
@@ -41,7 +38,7 @@ app.use(cors({
   app.options('*', cors());
 
 app.use((req,res,next)=>{
-    res.setHeader("Access-Control-Allow-Origin","http://localhost:3000");
+    res.setHeader("Access-Control-Allow-Origin",{frontend_url});
     res.header(
         "Access-Control-Allow-Headers",
         "Origin,X-Requested-With,Content-Type,Accept"
@@ -49,8 +46,6 @@ app.use((req,res,next)=>{
     next();
 })
 
-
-// Middleware
 app.use(cors());
 app.use(bodyParser.json());
 app.use(express.json());
@@ -89,15 +84,15 @@ app.use('/search/:id',Protection,(req,res)=>{ const id = req.params.id; // Get t
 app.use('/search',(req,res)=>{Item(req,res);console.log('searching')});
 
 
-app.use('/update_profile',(req,res)=>{
+app.use('/update_profile',Protection,(req,res)=>{
     Update(req,res);
 })
-app.use('/add_to_cart/:id',(req,res)=>{
+app.use('/add_to_cart/:id',Protection,(req,res)=>{
     const id = req.params.id;
     console.log('id is',id);
     addToCart(req,res,id);
 })
-app.use('/remove/:id',(req,res)=>{
+app.use('/remove/:id',Protection,(req,res)=>{
     const id = req.params.id;
     console.log('id is',id);
     removeFromCart(req,res,id);
@@ -105,19 +100,19 @@ app.use('/remove/:id',(req,res)=>{
 app.use('/support',Protection,(req,res)=>{
     support(req,res);
 })
-app.use('/getcart',(req,res)=>{
+app.use('/getcart',Protection,(req,res)=>{
     Cart(req,res);
 })
-app.use('/buy',(req,res)=>{
+app.use('/buy',Protection,(req,res)=>{
     console.log('Buy from cart');
     Buy(req,res);
 })
-app.use('/check_otp/:id',(req,res)=>{
+app.use('/check_otp/:id',Protection,(req,res)=>{
     const id = req.params.id;
     // console.log('id2 is',id);
     checkOtp(req,res);
 })
-app.use('/add_comment/:id',(req,res)=>{
+app.use('/add_comment/:id',Protection,(req,res)=>{
     // const id = req.params.id;
     // console.log('id2 is',id);
     add_comment(req,res);

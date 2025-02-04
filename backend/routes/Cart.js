@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const jwt = require('jsonwebtoken');
-const jwtSecret = 'IAmTheGreatestOfAllTimewwwwwwwww'; // Ensure this matches your secret
+const jwtSecret = process.env.JWT; // Ensure this matches your secret
 
 // Assuming you have User and Product models defined
 const User = require('../models/User.js');

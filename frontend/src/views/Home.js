@@ -3,7 +3,6 @@ import { Container, Typography, Button, Box } from "@mui/material";
 import { styled } from "@mui/system";
 import CustomCursor from "../components/Cursor";
 
-
 const HeroSection = styled(Box)({
   background: "linear-gradient(to right, #0288d1, #43a047)",
   color: "white",

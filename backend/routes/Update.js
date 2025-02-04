@@ -1,10 +1,9 @@
 const express = require("express");
 const jwt = require("jsonwebtoken");
-const mongoose = require("mongoose");
 const User = require("../models/User"); // Assuming you have a User model
 const router = express.Router();
 const bcrypt = require('bcryptjs');
-const JWT_SECRET = "IAmTheGreatestOfAllTimewwwwwwwww"; // Replace with your actual JWT secret key
+const JWT_SECRET = process.env.JWT; // Replace with your actual JWT secret key
 
 // Middleware to authenticate token and extract user email
 const authenticateToken = (req, res, next) => {

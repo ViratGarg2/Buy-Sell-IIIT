@@ -5,7 +5,7 @@ const { body, validationResult } = require("express-validator");
 const bcrypt = require("bcryptjs"); // Use bcrypt for password hashing
 const jwt = require("jsonwebtoken");
 const axios = require('axios');
-const jwtSecret = "IAmTheGreatestOfAllTimewwwwwwwww";
+const jwtSecret = process.env.JWT;
 const crypto = require('crypto');
 
 function generateRandomString(length) {

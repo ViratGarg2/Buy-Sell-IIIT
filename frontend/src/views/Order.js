@@ -18,7 +18,7 @@ export default function Orders() {
       const authToken = localStorage.getItem("authToken");
 
       try {
-        const response = await fetch("http://localhost:3001/getData", {
+        const response = await fetch(process.env.REACT_APP_BACKEND+"/getData", {
           headers: {
             "Content-Type": "application/json",
             "auth-token": authToken,
@@ -59,6 +59,7 @@ export default function Orders() {
       ) : (
         <>
           <OrderSection title="Pending Orders" orders={orders.pendingOrders} isPending />
+          {orders.pendingOrders.length > 0 && <h1>No orders found.</h1>}
           <OrderSection title="Delivered Orders (As Seller)" orders={orders.deliveredAsSeller} />
           <OrderSection title="Delivered Orders (As Buyer)" orders={orders.deliveredAsBuyer} />
         </>
@@ -75,9 +76,9 @@ const OrderSection = ({ title, orders, isPending = false }) => (
     </Typography>
     <Grid container spacing={3}>
       {orders.length === 0 ? (
-        <Typography variant="body1" color="textSecondary">
+        <h1>
           No orders found.
-        </Typography>
+        </h1>
       ) : (
         orders.map((order) => (
           <Grid item xs={12} sm={6} md={4} key={order._id}>

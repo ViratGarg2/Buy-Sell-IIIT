@@ -1,8 +1,4 @@
 const mongoose = require("mongoose");
-const Product = require('../models/Product.js');
-const { ObjectId } = require('mongodb');
-const { MongoClient } = require('mongodb');
-
  
 async function Product1(req, res,id) {
   try {

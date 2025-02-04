@@ -10,8 +10,8 @@ const session = require("express-session");
 const passport = require("passport");
 const CASStrategy = require("passport-cas").Strategy;
 
-const jwtSecret = "IAmTheGreatestOfAllTimewwwwwwwww";
-const CAS_SERVER_URL = "https://login.iiit.ac.in/cas/login"; // Replace with actual CAS server URL
+const jwtSecret = process.env.JWT;
+const CAS_SERVER_URL = process.env.CAS;
 
 function generateRandomString(length) {
   return crypto.randomBytes(length).toString("hex").slice(0, length);

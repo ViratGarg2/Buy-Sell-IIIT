@@ -15,7 +15,7 @@ const add_comment = async(id,comment)=>{
   console.log('done');
   const authToken = localStorage.getItem('authToken');
       try {
-        const response = await fetch(`http://localhost:3001/add_comment/${id}`, {
+        const response = await fetch(process.env.REACT_APP_BACKEND+`/add_comment/${id}`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -53,7 +53,7 @@ const add_to_cart = async(id)=>{
   // console.log('done');
   const authToken = localStorage.getItem('authToken');
       try {
-        const response = await fetch(`http://localhost:3001/add_to_cart/${id}`, {
+        const response = await fetch(process.env.REACT_APP_BACKEND+`/add_to_cart/${id}`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -99,7 +99,7 @@ const add_to_cart = async(id)=>{
   useEffect(() => {
     const fetchItemDetails = async () => {
       try {
-        const response = await fetch(`http://localhost:3001/search/${id}`, {
+        const response = await fetch(process.env.REACT_APP_BACKEND+`/search/${id}`, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",

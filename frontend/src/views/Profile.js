@@ -13,7 +13,7 @@ const handleProfile = async (setUser) => {
   }
 
   try {
-    const response = await fetch("http://localhost:3001/profile/get", {
+    const response = await fetch(process.env.REACT_APP_BACKEND+"/profile/get", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -42,7 +42,7 @@ const updateProfile = async (fields, setUser) => {
     return;
   }
   try {
-    const response = await fetch("http://localhost:3001/update_profile", {
+    const response = await fetch(process.env.REACT_APP_BACKEND+"/update_profile", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

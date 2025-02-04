@@ -10,7 +10,7 @@ const Chatbot = () => {
 
   const handleSend = async () => {
     if (input.trim() === "") return;
-
+    // console.log("Sending message:", process.env.REACT_APP_BACKEND);
     // Add the user's message to the chat
     const userMessage = { author: "user", content: input };
     setMessages((prevMessages) => [...prevMessages, userMessage]);
@@ -23,7 +23,7 @@ const Chatbot = () => {
       setIsLoading(true);
 
       // Send the user's message to the backend
-      const response = await fetch("http://localhost:3001/support", {
+      const response = await fetch(process.env.REACT_APP_BACKEND + "/support", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

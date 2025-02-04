@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 const jwt = require("jsonwebtoken");
-const jwtSecret = "IAmTheGreatestOfAllTimewwwwwwwww";
+const jwtSecret = process.env.JWT;
 // const Order = require("../models/Order.js");
 const User = require("../models/User.js");
 // const Product = require("../models/Product.js");

@@ -33,7 +33,7 @@ export default function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const response = await fetch("http://localhost:3001/api/login_check", {
+    const response = await fetch(process.env.REACT_APP_BACKEND+"/api/login_check", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -71,7 +71,7 @@ export default function Login() {
       setTimeout(() => {
         window.location.href = "/profile";
       }, 2000);
-      await fetch("http://localhost:3001/getData", {
+      await fetch(process.env.REACT_APP_BACKEND+"/getData", {
         method: "GET",
         headers: {
           "Content-Type": "application/json",

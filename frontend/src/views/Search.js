@@ -6,7 +6,7 @@ import CustomCursor from "../components/Cursor";
 // Fetch the items to display
 const getItems = async (setUser, setLoading) => {
   try {
-    const response = await fetch("http://localhost:3001/search", {
+    const response = await fetch(process.env.REACT_APP_BACKEND+"/search", {
       method: "GET",
       headers: { "Content-Type": "application/json",
         "auth-token" : localStorage.getItem("authToken"),

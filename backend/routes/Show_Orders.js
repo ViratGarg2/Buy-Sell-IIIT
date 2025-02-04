@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const jwt = require("jsonwebtoken");
-const { ObjectId } = require('mongodb');
-const jwtSecret = "IAmTheGreatestOfAllTimewwwwwwwww";
+// const { ObjectId } = require('mongodb');
+const jwtSecret = process.env.JWT;
 
 async function Show_Orders(req, res) {
   try {

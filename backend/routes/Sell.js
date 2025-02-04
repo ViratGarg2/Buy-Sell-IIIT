@@ -3,7 +3,7 @@ const router = express.Router();
 const jwt = require("jsonwebtoken");
 const crypto = require("crypto");
 const mongoose = require("mongoose");
-const jwtSecret = "IAmTheGreatestOfAllTimewwwwwwwww";
+// const jwtSecret = "IAmTheGreatestOfAllTimewwwwwwwww";
 
 // Utility function to generate a random string
 function generateRandomString(length) {

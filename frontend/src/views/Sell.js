@@ -37,7 +37,7 @@ export default function Sell() {
       return;
     }
 
-    const response = await fetch("http://localhost:3001/sell", {
+    const response = await fetch(process.env.REACT_APP_BACKEND + "/sell", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

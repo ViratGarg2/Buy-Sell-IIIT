@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 const jwt = require("jsonwebtoken");
-const jwtSecret = "IAmTheGreatestOfAllTimewwwwwwwww";
+const jwtSecret = process.env.JWT;
 const User = require('../models/User');
  
 async function Remove(req, res) {
