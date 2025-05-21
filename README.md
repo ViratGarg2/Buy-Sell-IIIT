@@ -25,7 +25,7 @@ A modern web application for buying and selling products within the IIIT-H commu
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/yourusername/Buy-Sell-IIIT.git
+   git clone https://github.com/ViratGarg2/Buy-Sell-IIIT.git
    ```
 2. Install dependencies for both frontend and backend:
    ```bash
