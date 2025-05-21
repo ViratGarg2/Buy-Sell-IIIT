@@ -2,6 +2,10 @@
 
 A modern web application for buying and selling products within the IIIT-H community. The platform provides a seamless experience for users to list items for sale, browse available products, manage their cart, and track orders.
 
+## Deployed Link
+
+[Access the live site here](https://buy-sell-iiith-ten.vercel.app/)
+
 ## Key Features
 
 - **User Authentication**: Secure login and registration with JWT-based authentication.
@@ -39,10 +43,6 @@ A modern web application for buying and selling products within the IIIT-H commu
    npm start
    ```
 5. Access the application in your browser at `http://localhost:3000` (or the deployed link below).
-
-## Deployed Link
-
-[Access the live site here](https://buy-sell-iiith-ten.vercel.app/)
 
 ## Technologies Used
 - React.js (frontend)
