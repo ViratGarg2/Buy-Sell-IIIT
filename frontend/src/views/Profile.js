@@ -1,10 +1,16 @@
-import React, { useState } from "react";
-import { Button, TextField, Box, Typography, Paper } from "@mui/material";
+import React, { useState, useEffect } from "react";
+import {
+  Button,
+  TextField,
+  Box,
+  Typography,
+  Paper,
+  CircularProgress,
+} from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import SaveIcon from "@mui/icons-material/Save";
 import CustomCursor from "../components/Cursor";
 
-// Get user data from backend
 const handleProfile = async (setUser) => {
   const authToken = localStorage.getItem("authToken");
   if (!authToken) {
@@ -70,6 +76,12 @@ export default function Profile() {
   const [editingField, setEditingField] = useState(null);
   const [fields, setFields] = useState({});
 
+  useEffect(() => {
+    if (localStorage.getItem("authToken")) {
+      handleProfile(setUser);
+    }
+  }, []);
+
   const handleEditClick = (field) => {
     setEditingField(field);
     setFields((prev) => ({ ...prev, [field]: user[field] }));
@@ -101,21 +113,17 @@ export default function Profile() {
   }
 
   return (
-    <Box mt={4} display="flex" justifyContent="center">
-      <CustomCursor/>
+    <Box mt={4} justifyContent="center">
+      <Typography variant="h4" gutterBottom sx={{ textAlign: "center", color: "#006400", fontWeight: "bold" }}>
+                    Profile
+                  </Typography>
+      <CustomCursor />
       {!user ? (
-        <Button
-          variant="contained"
-          color="primary"
-          onClick={() => handleProfile(setUser)}
-        >
-          Get Profile
-        </Button>
+        <Box textAlign="center">
+          <CircularProgress />
+        </Box>
       ) : (
-        <Paper elevation={3} sx={{ padding: 4, width: "100%", maxWidth: 500 }}>
-          <Typography variant="h5" gutterBottom>
-            Edit Profile
-          </Typography>
+        <Paper elevation={3} sx={{ padding: 4, width: "100%", maxWidth: 500, margin: "0 auto" }}>
           {[
             "first_name",
             "last_name",
@@ -140,6 +148,7 @@ export default function Profile() {
                     variant="outlined"
                     size="small"
                     name={field}
+                    type={field === "password" ? "password" : "text"}
                     value={fields[field] || ""}
                     onChange={handleChange}
                     sx={{ flex: 2, marginRight: 1 }}
@@ -155,7 +164,9 @@ export default function Profile() {
                 </>
               ) : (
                 <>
-                  <Typography sx={{ flex: 2 }}>{user[field]}</Typography>
+                  <Typography sx={{ flex: 2 }}>
+                    {field === "password" ? "********" : user[field]}
+                  </Typography>
                   <EditIcon
                     onClick={() => handleEditClick(field)}
                     sx={{ cursor: "pointer", color: "primary.main" }}

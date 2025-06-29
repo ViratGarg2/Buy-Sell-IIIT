@@ -72,10 +72,73 @@ const Home = () => {
         <Typography variant="h4" gutterBottom align="center">
           Popular Categories
         </Typography>
-        <Box display="flex" justifyContent="center" gap={2} flexWrap="wrap">
-          <Box width="250px" height="200px" bgcolor="#e0e0e0" textAlign="center" p={4}>Electronics</Box>
-          <Box width="250px" height="200px" bgcolor="#e0e0e0" textAlign="center" p={4}>Fashion</Box>
-          <Box width="250px" height="200px" bgcolor="#e0e0e0" textAlign="center" p={4}>Furniture</Box>
+        <Box display="flex" justifyContent="center" gap={4} flexWrap="wrap">
+          <a href="/search?category=Electronics" style={{ textDecoration: 'none', color: 'inherit' }}>
+            <Box
+              width="250px"
+              textAlign="center"
+              sx={{
+                border: "1px solid #e0e0e0",
+                borderRadius: "8px",
+                overflow: "hidden",
+                boxShadow: 3,
+                "&:hover": { boxShadow: 6 },
+              }}
+            >
+              <img
+                src="/electronics.png"
+                alt="Electronics"
+                style={{ width: "100%", height: "180px", objectFit: "cover" }}
+              />
+              <Typography variant="h6" sx={{ p: 2 }}>
+                Electronics
+              </Typography>
+            </Box>
+          </a>
+          <a href="/search?category=Fashion" style={{ textDecoration: 'none', color: 'inherit' }}>
+            <Box
+              width="250px"
+              textAlign="center"
+              sx={{
+                border: "1px solid #e0e0e0",
+                borderRadius: "8px",
+                overflow: "hidden",
+                boxShadow: 3,
+                "&:hover": { boxShadow: 6 },
+              }}
+            >
+              <img
+                src="/fashion.png"
+                alt="Fashion"
+                style={{ width: "100%", height: "180px", objectFit: "cover" }}
+              />
+              <Typography variant="h6" sx={{ p: 2 }}>
+                Fashion
+              </Typography>
+            </Box>
+          </a>
+          <a href="/search?category=Furniture" style={{ textDecoration: 'none', color: 'inherit' }}>
+            <Box
+              width="250px"
+              textAlign="center"
+              sx={{
+                border: "1px solid #e0e0e0",
+                borderRadius: "8px",
+                overflow: "hidden",
+                boxShadow: 3,
+                "&:hover": { boxShadow: 6 },
+              }}
+            >
+              <img
+                src="/furniture.png"
+                alt="Furniture"
+                style={{ width: "100%", height: "180px", objectFit: "cover" }}
+              />
+              <Typography variant="h6" sx={{ p: 2 }}>
+                Furniture
+              </Typography>
+            </Box>
+          </a>
         </Box>
       </Container>
       
@@ -115,9 +178,8 @@ const Home = () => {
               <Typography variant="h6" gutterBottom>
                 Links
               </Typography>
-              <Typography variant="body2">About Us</Typography>
-              <Typography variant="body2">Privacy Policy</Typography>
-              <Typography variant="body2">Contact Us</Typography>
+              <Typography variant="body2"><a href="/" style={{ color: 'inherit', textDecoration: 'none' }}>About Us</a></Typography>
+              <Typography variant="body2"><a href="/support" style={{ color: 'inherit', textDecoration: 'none' }}>Contact Us</a></Typography>
             </Box>
           </Box>
         </Container>

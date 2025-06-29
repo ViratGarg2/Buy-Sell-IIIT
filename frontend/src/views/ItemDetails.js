@@ -2,14 +2,27 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import StarRating from '../components/StarRating';
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
-// import Button from "@mui/material/Button";
 import CommentIcon from "@mui/icons-material/Comment";
-import { TextField, Button, Box, Typography, Rating,Card, CardContent, CardMedia,Snackbar} from "@mui/material";
-import ForbiddenAnimation from "../components/Access";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import {
+  TextField,
+  Button,
+  Box,
+  Typography,
+  Rating,
+  CardMedia,
+  Snackbar,
+  Container,
+  Accordion,
+  AccordionSummary,
+  AccordionDetails,
+} from "@mui/material";
 import CustomCursor from "../components/Cursor";
 import JSConfetti from "js-confetti";
 import Alert from '@mui/material/Alert';
-
+import {
+  CircularProgress,
+} from "@mui/material";
 
 const add_comment = async(id,comment)=>{
   console.log('done');
@@ -75,7 +88,6 @@ const add_to_cart = async(id)=>{
       setOpenSnackbar(true);
       setMessage("Item added to cart");
 
-          // alert('Item added to cart');
         }else{
           alert(data.message);
         }
@@ -109,7 +121,7 @@ const add_to_cart = async(id)=>{
 
         const data = await response.json();
         if (data.success) {
-            console.log('hi');
+            // console.log('hi');
           setItemDetails(data.Product); // Assuming API returns { success: true, item: {...} }
         } else {
           alert("Login to proceed");
@@ -127,7 +139,16 @@ const add_to_cart = async(id)=>{
   }, [id]);
 
   if (loading) {
-    return <div>Loading...</div>; // Show loading while fetching data
+    return (
+      <Box
+        display="flex"
+        justifyContent="center"
+        alignItems="center"
+        minHeight="80vh"
+      >
+        <CircularProgress color="success" />
+      </Box>
+    );
   }
 
   if (!itemDetails) {
@@ -137,11 +158,11 @@ const add_to_cart = async(id)=>{
     return <div>Please login to view this page</div>;
   }
   return (
-    <div className="container mt-4">
+    <Container sx={{ marginTop: "2rem", marginLeft: { sm: 0, md: "5rem" } }}>
       <CustomCursor/>
       <div className="card">
         <div className="card-header">
-          <h3>{itemDetails.name}</h3>
+          <h1 style={{color:"green"}}>{itemDetails.name}</h1>
         </div>
         <Snackbar
         open={openSnackbar}
@@ -176,24 +197,41 @@ const add_to_cart = async(id)=>{
           <p>
             <strong>Seller name:</strong> {itemDetails.seller_first_name} {itemDetails.seller_last_name}
           </p>
-          <h3>Reviews</h3>
-          {itemDetails.seller_reviews.map((review, index) => (
-            <div
-              key={index}
-              style={{
-                marginBottom: "10px",
-                border: "2px solid #ccc",
-                borderRadius: "8px",
-                padding: "10px",
-              }}
+          <Accordion sx={{ my: 2, boxShadow: 3, borderRadius: 2 }}>
+            <AccordionSummary
+              expandIcon={<ExpandMoreIcon />}
+              aria-controls="reviews-content"
+              id="reviews-header"
             >
-              <strong>{review.name}</strong>
-              <br />
-              <StarRating rating={review.rating} />
-              <p>"{review.comment}"</p>
-            </div>
-          ))}
-          <div style={{ display: "flex", marginTop: "10px", gap: "10px" }}>
+              <Typography variant="h6">Reviews</Typography>
+            </AccordionSummary>
+            <AccordionDetails>
+              {itemDetails.seller_reviews.length > 0 ? (
+                itemDetails.seller_reviews.map((review, index) => (
+                  <Box
+                    key={index}
+                    sx={{
+                      mb: 2,
+                      border: "1px solid #ddd",
+                      borderRadius: "8px",
+                      p: 2,
+                    }}
+                  >
+                    <Typography variant="subtitle1" fontWeight="bold">
+                      {review.name}
+                    </Typography>
+                    <StarRating rating={review.rating} />
+                    <Typography sx={{ mt: 1, fontStyle: "italic" }}>
+                      "{review.comment}"
+                    </Typography>
+                  </Box>
+                ))
+              ) : (
+                <Typography>No reviews yet.</Typography>
+              )}
+            </AccordionDetails>
+          </Accordion>
+          <div style={{ display: "flex", marginTop: "10px", gap: "10px",marginBottom: "20px" }}>
             <Button
       variant="contained"
       color="primary"
@@ -255,7 +293,7 @@ const add_to_cart = async(id)=>{
           onChange={(event, newValue) =>
             setCommentData({ ...commentData, rating: newValue })
           }
-          precision={0.5} // Allows half-star ratings
+          precision={0.5}
         />
       </Box>
 
@@ -301,7 +339,7 @@ const add_to_cart = async(id)=>{
           )}
         </div>
       </div>
-    </div>
+    </Container>
   );
 };
 

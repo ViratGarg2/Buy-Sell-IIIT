@@ -53,11 +53,7 @@ export default function Login() {
 
       const authToken = localStorage.getItem("authToken");
 
-      // jsConfetti.addConfetti({
-      //   emojis: ["🎉", "✨", "🎊", "🥳", "💥"],
-      //   emojiSize: 50,
-      //   confettiNumber: 1000,
-      // });
+     
       const jsConfetti = new JSConfetti()
       jsConfetti.addConfetti(
         {
@@ -98,9 +94,9 @@ export default function Login() {
           backgroundColor: "#f9f9f9",
         }}
       >
-        <Typography variant="h4" align="center" gutterBottom>
-          Login
-        </Typography>
+      <Typography variant="h4" gutterBottom sx={{ textAlign: "center", color: "#006400", fontWeight: "bold" }}>
+              Login
+            </Typography>
 
         {error && (
           <Alert severity="error" sx={{ marginBottom: "20px" }}>
@@ -162,19 +158,7 @@ export default function Login() {
             >
               Login
             </Button>
-            <Button
-              fullWidth
-              type="submit"
-              variant="contained"
-              color="success"
-              sx={{ borderRadius: "10px", textTransform: "none", marginRight: "10px" }}
-              onClick = {()=>{
-                window.location.href= "http://localhost:3001/user/cas_login"
-                // <a href="http://localhost:3001/user/cas_login">Login with CAS</a>
-              }}
-            >
-              CAS Login
-            </Button>
+
             <Button
               fullWidth
               variant="outlined"

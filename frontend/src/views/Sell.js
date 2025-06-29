@@ -103,14 +103,9 @@ export default function Sell() {
   return (
     <Container maxWidth="sm">
       <CustomCursor />
-      <Typography
-        variant="h4"
-        align="center"
-        gutterBottom
-        sx={{ color: "green", marginTop: 4 }}
-      >
-        Add Item
-      </Typography>
+      <Typography variant="h4" gutterBottom sx={{ textAlign: "center", color: "#006400", fontWeight: "bold" }}>
+                    Add Item
+                  </Typography>
 
       {error && (
         <Alert severity="error" sx={{ marginBottom: 2 }}>

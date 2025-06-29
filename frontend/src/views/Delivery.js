@@ -93,87 +93,80 @@ const Delivery = () => {
   };
 
   if (error) return <Alert severity="error">{error}</Alert>;
-  // if (data.length === 0) {
-  //   return (
-  //     <Typography
-  //       variant="h4"
-  //       align="center"
-  //       sx={{ color: "green", marginTop: "20px" }}
-  //     >
-  //       No Pending Orders
-  //     </Typography>
-  //   );
-  // }
-//   if(!localStorage.getItem("authToken") || localStorage.getItem("authToken")==""){
-//     return (
-//       <>
-//       <ForbiddenAnimation></ForbiddenAnimation>
-//   </>
-//     )  
-// }
+  if (!authToken) {
+    return <ForbiddenAnimation />;
+  }
   return (
     <Box sx={{ padding: "20px" }}>
       <CustomCursor/>
-      <Typography variant="h4" gutterBottom sx={{ color: "green", mb: 3 }}>
-        Pending Deliveries
-      </Typography>
+      <Typography variant="h4" gutterBottom sx={{ textAlign: "center", color: "#006400", fontWeight: "bold" }}>
+                    Pending Deliveries
+                  </Typography>
 
-      <Grid container spacing={3}>
-        {data.map((item) => (
-          <Grid item xs={12} sm={6} md={4} key={item.id}>
-            <Card
-              sx={{
-                boxShadow: 3,
-                borderRadius: 2,
-                "&:hover": { boxShadow: 6 },
-                border: "1px solid #ddd",
-              }}
-            >
-              <CardContent>
-                <Typography
-                  variant="h6"
-                  gutterBottom
-                  sx={{ color: "green", fontWeight: "bold" }}
-                >
-                  {item.itemName}
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  <strong>Buyer:</strong> {item.buyerName}
-                </Typography>
-                <Typography variant="body2" color="text.secondary" gutterBottom>
-                  <strong>Order Value:</strong> ₹{item.orderValue}
-                </Typography>
-                <form onSubmit={(e) => handleOtpSubmit(e, item.id)}>
-                  <TextField
-                    variant="outlined"
-                    size="small"
-                    label="Enter OTP"
-                    value={otpInputs[item.id] || ""}
-                    onChange={(e) => handleOtpChange(item.id, e.target.value)}
-                    fullWidth
-                    sx={{ marginBottom: 2 }}
-                  />
-                  <CardActions>
-                    <Button
-                      variant="contained"
-                      color="success"
+      {data.length === 0 ? (
+        <Box textAlign="center" py={5}>
+          <Typography variant="h6" color="text.secondary">
+            No pending deliveries found.
+          </Typography>
+        </Box>
+      ) : (
+        <Grid container spacing={3}>
+          {data.map((item) => (
+            <Grid item xs={12} sm={6} md={4} key={item.id}>
+              <Card
+                sx={{
+                  boxShadow: 3,
+                  borderRadius: 2,
+                  "&:hover": { boxShadow: 6 },
+                  border: "1px solid #ddd",
+                }}
+              >
+                <CardContent>
+                  <Typography
+                    variant="h6"
+                    gutterBottom
+                    sx={{ color: "green", fontWeight: "bold" }}
+                  >
+                    {item.itemName}
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    <strong>Buyer:</strong> {item.buyerName}
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary" gutterBottom>
+                    <strong>Order Value:</strong> ₹{item.orderValue}
+                  </Typography>
+                  <form onSubmit={(e) => handleOtpSubmit(e, item.id)}>
+                    <TextField
+                      variant="outlined"
+                      size="small"
+                      label="Enter OTP"
+                      value={otpInputs[item.id] || ""}
+                      onChange={(e) => handleOtpChange(item.id, e.target.value)}
                       fullWidth
-                      type="submit"
-                      sx={{
-                        textTransform: "none",
-                        fontWeight: "bold",
-                        borderRadius: 1,
-                      }}
-                    >
-                      Submit
-                    </Button>
-                  </CardActions>
-                </form>
-              </CardContent>
-            </Card>
-          </Grid>
-        ))}
-      </Grid>
+                      sx={{ marginBottom: 2 }}
+                    />
+                    <CardActions>
+                      <Button
+                        variant="contained"
+                        color="success"
+                        fullWidth
+                        type="submit"
+                        sx={{
+                          textTransform: "none",
+                          fontWeight: "bold",
+                          borderRadius: 1,
+                        }}
+                      >
+                        Submit
+                      </Button>
+                    </CardActions>
+                  </form>
+                </CardContent>
+              </Card>
+            </Grid>
+          ))}
+        </Grid>
+      )}
     </Box>
   );
 };

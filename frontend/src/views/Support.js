@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import "./Chatbot.css";
 import ForbiddenAnimation from "../components/Access";
 import CustomCursor from "../components/Cursor";
-
+import { Typography } from "@mui/material";
 const Chatbot = () => {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
@@ -60,6 +60,9 @@ const Chatbot = () => {
 
   return (
     <div className="chatbot-container">
+      <Typography variant="h4" gutterBottom sx={{ textAlign: "center", color: "#006400", fontWeight: "bold" }}>
+              Support
+            </Typography>
       <CustomCursor />
       <div className="chatbox">
         {messages.map((msg, index) => (
